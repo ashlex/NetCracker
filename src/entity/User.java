@@ -30,4 +30,9 @@ public class User {
 	public void setPhone(String aPhone) {
 		this.aPhone = aPhone;
 	}
+
+	@Override
+	public String toString() {
+		return aLogin+" "+aPassword;
+	}
 }

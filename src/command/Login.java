@@ -19,6 +19,5 @@ public class Login implements ICommand {
 			password=args[1];
 		}
 		iDaoUser= DaoFactory.getInstance().getDaoUser("RamDaoUser");
-		if()
 	}
 }

@@ -5,6 +5,7 @@ public class User {
 	private String aPhone=null;
 	private String aName=null;
 	private String aPassword=null;
+	private boolean online=false;
 
 	public User(String login,String password){
 		this.aLogin=login;
@@ -34,5 +35,16 @@ public class User {
 	@Override
 	public String toString() {
 		return aLogin+" "+aPassword;
+	}
+
+	public boolean getOline(){
+		return online;
+	}
+
+	public void setOnline(boolean online) {
+		this.online = online;
+	}
+	public boolean verification(String aPassword){
+		return this.aPassword.equals(aPassword);
 	}
 }

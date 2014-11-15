@@ -1,0 +1,3 @@
+login [userLogin] [password];команда аутентификации пользователя;
+logout;команда выхода из аккаунта;
+registration [userLogin] [password];команда регистрации в системе нового пользователя;

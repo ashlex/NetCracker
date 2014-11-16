@@ -2,7 +2,8 @@ package dao;
 
 public class DaoFactory {
 	private static DaoFactory INSTANCE=null;
-	private final IDaoUser ramDaoUser=new RamDaoUser();
+//	private final IDaoUser ramDaoUser=new RamDaoUser();
+	private final IDaoUser fileDaoUser=new FileDaoUser();
 	private DaoFactory(){}
 	public static DaoFactory getInstance(){
 		if (INSTANCE==null){
@@ -10,12 +11,11 @@ public class DaoFactory {
 		}
 		return INSTANCE;
 	}
-	public IDaoUser getDaoUser(String daoName){
-		if (daoName.equalsIgnoreCase("RamDaoUser")) {
-			return ramDaoUser;
-		} else {
-			return null;
-		}
+//	public IDaoUser getRamDaoUser(){
+//		return ramDaoUser;
+//	}
+	public IDaoUser getFileDaoUser(){
+		return fileDaoUser;
 	}
 
 }

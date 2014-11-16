@@ -34,7 +34,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return aLogin+" "+aPassword;
+		return aLogin+" "+aPassword+" "+aName+" "+aPhone+" "+online;
 	}
 
 	public boolean getOline(){
@@ -46,5 +46,8 @@ public class User {
 	}
 	public boolean verification(String aPassword){
 		return this.aPassword.equals(aPassword);
+	}
+	public String getPassword(){
+		return aPassword;
 	}
 }

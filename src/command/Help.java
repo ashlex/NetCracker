@@ -1,17 +1,48 @@
 package command;
 
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Help implements ICommand{
 
+	OutputStream outputStream=null;
+	ArrayList<String> attributes=null;
+
 	@Override
-	public void execute(String[] args, OutputStream request) {
+	public void setOutPutStream(OutputStream request) {
+		if (request!=null){
+			this.outputStream=request;
+		}
+
+	}
+
+	@Override
+	public void setAttributes(ArrayList<String> attributes) {
+		if(attributes!=null){
+			this.attributes=attributes;
+		}
+	}
+
+	@Override
+	public void setAttributes(String[] attributes) {
+		if(attributes.length>0){
+			this.attributes=new ArrayList<String>();
+			for (String attribute : attributes) {
+				this.attributes.add(attribute);
+			}
+		}
+	}
+
+	@Override
+	public void exec() throws IOException {
 		Map<String,String> map=new HashMap<String, String>();
-//		try {
 		Scanner scn= null;
 		try {
 			scn = new Scanner(new File(Help.class.getResource("Help").getPath()));
@@ -28,14 +59,14 @@ public class Help implements ICommand{
 				}
 				map.put(comName,str);
 			}
-//		}
-		if(args.length>0){
-			((PrintStream)request).println(map.get(args[0]));
+		if(attributes!=null){
+			for (String attribute : attributes) {
+				outputStream.write((map.get(attribute)+"\r").getBytes());
+			}
 		}else{
 			for (Map.Entry<String, String> entry : map.entrySet()){
-				((PrintStream)request).println(entry.getValue());
+					outputStream.write((entry.getValue() + "\r").getBytes());
 			}
 		}
-
 	}
 }

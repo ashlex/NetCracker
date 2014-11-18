@@ -1,21 +1,30 @@
 package command;
 
-import controller.Authentication;
-
+import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class Login implements ICommand {
 	private String login=null;
 	private String password=null;
 
 	@Override
-	public void execute(String []args,OutputStream request) {
-		if(args[0] instanceof String){
-			login=args[0];
-		}
-		if(args[1] instanceof String){
-			password=args[1];
-		}
-		Authentication.logIn(login,password);
+	public void setOutPutStream(OutputStream request) {
+
+	}
+
+	@Override
+	public void setAttributes(ArrayList<String> attributes) {
+
+	}
+
+	@Override
+	public void setAttributes(String[] attributes) {
+
+	}
+
+	@Override
+	public void exec() throws IOException {
+
 	}
 }

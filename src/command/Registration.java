@@ -26,6 +26,7 @@ public class Registration implements ICommand {
 	@Override
 	public void setAttributes(String[] attributes) {
 		if(attributes.length>0){
+			this.attributes=new ArrayList<String>();
 			for (String attribute : attributes) {
 				this.attributes.add(attribute);
 			}

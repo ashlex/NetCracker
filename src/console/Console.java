@@ -2,6 +2,7 @@ package console;
 
 import command.ICommand;
 import entity.User;
+import entity.UsersBuffer;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -19,16 +20,19 @@ public class Console {
 	private User user=null;
 	public void start() {
 		ps.println("Добро пожаловать.");
+		user= UsersBuffer.getInstance().create();
 		while (true) {
 			ps.println();
-			ps.print(INVITE);
+			ps.print(user+INVITE);
 			input = scn.nextLine();
 			command = input.split(" ");
 			comName = command[0];
 			comAttribute = new String[command.length - 1];
 			System.arraycopy(command, 1, comAttribute, 0, comAttribute.length);
 			comName = capitalize(comName);
-
+//			for (String s : comAttribute) {
+//				ps.println(s);
+//			}
 			try {
 				com = (ICommand) Class.forName("command." + comName).newInstance();
 				if(comAttribute.length>0){
@@ -37,7 +41,7 @@ public class Console {
 				com.setOutPutStream(ps);
 				com.exec();
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				ps.println("");
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

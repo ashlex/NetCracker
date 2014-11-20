@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileDaoUser implements IDaoUser {
-	private enum Cools {LOGIN, PASSWORD, NAME, PHONE, ONLINE}
+	private enum Cools {LOGIN, PASSWORD, NAME, PHONE, ONLINE,ROLE}
 
 	private File uFile;
 	String path = FileDaoUser.class.getResource("Users").getPath();
@@ -43,11 +43,13 @@ public class FileDaoUser implements IDaoUser {
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
 				String user[] = line.split(";");
+				System.out.println(user[Cools.LOGIN.ordinal()]);
 				if (login.equals(user[Cools.LOGIN.ordinal()])) {
 					u = new User(user[Cools.LOGIN.ordinal()], user[Cools.PASSWORD.ordinal()]);
 					u.setName(user[Cools.NAME.ordinal()]);
 					u.setPhone(user[Cools.PHONE.ordinal()]);
-					u.setOnline(user[Cools.ONLINE.ordinal()] == "1" ? true : false);
+					u.setOnline(user[Cools.ONLINE.ordinal()].equals("1"));
+					u.setRole(Integer.parseInt(user[Cools.ROLE.ordinal()]));
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -123,6 +125,7 @@ public class FileDaoUser implements IDaoUser {
 		str[Cools.NAME.ordinal()]=u.getName();
 		str[Cools.PHONE.ordinal()]=u.getPhone();
 		str[Cools.ONLINE.ordinal()]=u.getOline()?"1":"0";
+		str[Cools.ROLE.ordinal()]=u.getRole()+"";
 		String user="";
 		for (String s : str) {
 			user+=s+";";

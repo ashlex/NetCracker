@@ -1,5 +1,6 @@
 package main.command;
 
+import main.dao.IDaoFactory;
 import main.entity.UserContext;
 
 import java.io.IOException;
@@ -26,4 +27,9 @@ public class Read implements ICommand {
 	public void reset() {
 
 	}
+
+    @Override
+    public void setDaoFactory(IDaoFactory daoFactory) {
+
+    }
 }

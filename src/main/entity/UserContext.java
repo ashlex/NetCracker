@@ -6,8 +6,8 @@ import main.IObserver;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserContext implements IObservable{
-	private Set<IObserver> observers=new HashSet<IObserver>();
+public class UserContext implements IObservable {
+	private Set<IObserver> observers = new HashSet<IObserver>();
 	private String nickname;
 	private String password;
 	private String name;
@@ -28,7 +28,7 @@ public class UserContext implements IObservable{
 	}
 
 	public void setNickname(String nickname) {
-		if (nickname!=null && !nickname.equals("")) {
+		if (nickname != null && !nickname.equals("")) {
 			this.nickname = nickname;
 		}
 	}
@@ -71,16 +71,24 @@ public class UserContext implements IObservable{
 		this.online = online;
 	}
 
+	public void reset() {
+		this.nickname = null;
+		this.password = null;
+		this.name = null;
+		this.role = 0;
+		this.online = false;
+	}
+
 	@Override
 	public void addObserver(IObserver o) {
-		if(o!=null) {
+		if (o != null) {
 			observers.add(o);
 		}
 	}
 
 	@Override
 	public void removeObserver(IObserver o) {
-		if(o!=null){
+		if (o != null) {
 			observers.remove(o);
 		}
 	}

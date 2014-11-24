@@ -1,6 +1,7 @@
 package main.command;
 
 
+import main.dao.IDaoFactory;
 import main.entity.UserContext;
 
 import java.io.File;
@@ -63,4 +64,9 @@ public class Help implements ICommand{
 	public void reset() {
 
 	}
+
+    @Override
+    public void setDaoFactory(IDaoFactory daoFactory) {
+
+    }
 }

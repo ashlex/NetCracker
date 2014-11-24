@@ -1,29 +1,15 @@
 package main.command;
 
-import main.entity.UserContext;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
-public class Logout implements ICommand{
+public class Logout extends CommandBase implements ICommand{
 
-	@Override
-	public void setContext(UserContext context) {
-
-	}
-
-	@Override
-	public void setAttributes(ArrayList<String> attributes) {
-
-	}
 
 	@Override
 	public void execute() throws IOException {
-
-	}
-
-	@Override
-	public void reset() {
-
+		context.setOnline(false);
+		daoFactory.getDaoUserContext().update(context);
+		context.reset();
+		context.notifyObserver();
 	}
 }

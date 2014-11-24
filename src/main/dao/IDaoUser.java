@@ -1,7 +1,7 @@
-package dao;
+package main.dao;
 
 
-import entity.User;
+import main.entity.User;
 
 import java.util.ArrayList;
 

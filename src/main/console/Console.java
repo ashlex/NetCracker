@@ -1,10 +1,10 @@
-package console;
+package main.console;
 
-import command.ICommand;
-import entity.User;
-import entity.UsersBuffer;
+import main.command.ICommand;
+import main.command.InvokerCommand;
+import main.entity.User;
+import main.entity.UserContext;
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -17,10 +17,13 @@ public class Console {
 	private String comName;
 	private String[] command;
 	private String[] comAttribute;
-	private User user=null;
+	private UserContext context;
+	private User user;
+	private InvokerCommand invokerCommand = new InvokerCommand();
 	public void start() {
 		ps.println("Добро пожаловать.");
-		user= UsersBuffer.getInstance().create();
+		context=new UserContext();
+		user=new User(context);
 		while (true) {
 			ps.println();
 			ps.print(user+INVITE);
@@ -30,25 +33,8 @@ public class Console {
 			comAttribute = new String[command.length - 1];
 			System.arraycopy(command, 1, comAttribute, 0, comAttribute.length);
 			comName = capitalize(comName);
-//			for (String s : comAttribute) {
-//				ps.println(s);
-//			}
-			try {
-				com = (ICommand) Class.forName("command." + comName).newInstance();
-				if(comAttribute.length>0){
-					com.setAttributes(comAttribute);
-				}
-				com.setOutPutStream(ps);
-				com.exec();
-			} catch (ClassNotFoundException e) {
-				ps.println("");
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			invokerCommand.storeAndExecute(com);
+
 		}
 	}
 	private String capitalize(String s) {

@@ -1,5 +1,7 @@
-package command;
+package main.command;
 
+
+import main.entity.UserContext;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,10 +18,7 @@ public class Help implements ICommand{
 	ArrayList<String> attributes=null;
 
 	@Override
-	public void setOutPutStream(OutputStream request) {
-		if (request!=null){
-			this.outputStream=request;
-		}
+	public void setContext(UserContext context) {
 
 	}
 
@@ -31,17 +30,7 @@ public class Help implements ICommand{
 	}
 
 	@Override
-	public void setAttributes(String[] attributes) {
-		if(attributes.length>0){
-			this.attributes=new ArrayList<String>();
-			for (String attribute : attributes) {
-				this.attributes.add(attribute);
-			}
-		}
-	}
-
-	@Override
-	public void exec() throws IOException {
+	public void execute() throws IOException {
 		Map<String,String> map=new HashMap<String, String>();
 		Scanner scn= null;
 		try {
@@ -68,5 +57,10 @@ public class Help implements ICommand{
 					outputStream.write((entry.getValue() + "\r").getBytes());
 			}
 		}
+	}
+
+	@Override
+	public void reset() {
+
 	}
 }

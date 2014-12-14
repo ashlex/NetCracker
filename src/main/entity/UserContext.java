@@ -2,17 +2,20 @@ package main.entity;
 
 import main.IObservable;
 import main.IObserver;
+import main.command.IPerformer;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
-public class UserContext implements IObservable {
+public class UserContext implements IObservable, IPerformer {
 	private Set<IObserver> observers = new HashSet<IObserver>();
 	private String nickname;
 	private String password;
 	private String name;
 	private int role;
 	private boolean online;
+	private Locale locale;
 
 
 	public UserContext() {
@@ -21,6 +24,7 @@ public class UserContext implements IObservable {
 		this.name = null;
 		this.role = 0;
 		this.online = false;
+		this.locale = Locale.getDefault();
 	}
 
 	public String getNickname() {
@@ -69,6 +73,14 @@ public class UserContext implements IObservable {
 
 	public void setOnline(boolean online) {
 		this.online = online;
+	}
+
+	public Locale getLocale(){
+		return this.locale;
+	}
+
+	public void setLocale(){
+
 	}
 
 	public void reset() {

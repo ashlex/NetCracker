@@ -1,17 +1,24 @@
 package main.command;
 
+import main.command.user.AbstractCommandOnUser;
+
 import java.io.IOException;
 
-public class Test extends CommandBase implements ICommand {
+public class Test extends AbstractCommandOnUser {
 
-    @Override
-    public void execute() throws IOException {
+	public Test(String alias) {
+		super(alias);
+	}
+
+	@Override
+    public boolean execute() throws IOException {
         String str = "root";
         if (attributes != null) {
             str = attributes.get(0);
         }
         context.setNickname(str);
         context.notifyObserver();
+	    return true;
     }
 
 

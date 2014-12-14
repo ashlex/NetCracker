@@ -1,40 +1,46 @@
-package main.command;
+package main.command.user;
 
+import main.command.ICommand;
 import main.dao.IDaoFactory;
 import main.entity.UserContext;
 
 import java.util.ArrayList;
 
-public class CommandBase implements ICommandBase {
+public abstract class AbstractCommandOnUser implements ICommand {
 	protected UserContext context;
 	protected ArrayList<String> attributes;
 	protected IDaoFactory daoFactory;
+	protected String alias;
 
-	@Override
+	public AbstractCommandOnUser(String alias){
+		this.alias=alias;
+	}
+
 	public void setContext(UserContext context) {
 		if (context != null) {
 			this.context = context;
 		}
 	}
 
-	@Override
 	public void setAttributes(ArrayList<String> attributes) {
 		if (attributes != null) {
 			this.attributes = attributes;
 		}
 	}
-	@Override
 	public void setDaoFactory(IDaoFactory daoFactory) {
 		if(daoFactory!=null) {
 			this.daoFactory = daoFactory;
 		}
 	}
 
-
-	@Override
 	public void reset() {
 		context=null;
 		attributes=null;
 		daoFactory=null;
+	}
+
+	@Override
+	public String getAlias() {
+		return this.alias;
 	}
 }

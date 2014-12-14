@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>main.command</OriginalElement>
+  <nodes>
+    <node x="291.16477272727275" y="547.5">main.command.Registration</node>
+    <node x="0.0" y="731.0">main.command.InvokerCommand</node>
+    <node x="728.7585227272727" y="507.5">main.command.Read</node>
+    <node x="175.26988636363637" y="158.0">main.command.CommandBase</node>
+    <node x="0.0" y="547.5">main.command.Login</node>
+    <node x="438.75852272727275" y="547.5">main.command.Test</node>
+    <node x="1361.7585227272727" y="457.0">main.command.CommandBuilder</node>
+    <node x="1029.7585227272727" y="487.0">main.command.Help</node>
+    <node x="146.16477272727275" y="547.5">main.command.Exit</node>
+    <node x="364.25852272727275" y="0.0">main.command.ICommandBase</node>
+    <node x="542.5085227272727" y="218.5">main.command.ICommand</node>
+    <node x="583.7585227272727" y="547.5">main.command.Logout</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.command.Read" target="main.command.ICommand">
+      <point x="0.0" y="-64.0" />
+      <point x="869.2585227272727" y="367.0" />
+      <point x="628.4460227272727" y="367.0" />
+      <point x="23.4375" y="24.0" />
+    </edge>
+    <edge source="main.command.Test" target="main.command.ICommand">
+      <point x="31.249999999999943" y="-24.0" />
+      <point x="532.5085227272727" y="437.0" />
+      <point x="597.1960227272727" y="437.0" />
+      <point x="-7.8125" y="24.0" />
+    </edge>
+    <edge source="main.command.Test" target="main.command.CommandBase">
+      <point x="-31.250000000000057" y="-24.0" />
+      <point x="470.00852272727275" y="397.0" />
+      <point x="368.46988636363636" y="397.0" />
+      <point x="55.19999999999999" y="84.5" />
+    </edge>
+    <edge source="main.command.Login" target="main.command.CommandBase">
+      <point x="-31.25" y="-24.0" />
+      <point x="31.25" y="387.0" />
+      <point x="202.8698863636364" y="387.0" />
+      <point x="-110.4" y="84.5" />
+    </edge>
+    <edge source="main.command.CommandBuilder" target="main.command.ICommand">
+      <point x="0.0" y="-114.5" />
+      <point x="1566.7585227272727" y="347.0" />
+      <point x="659.6960227272727" y="347.0" />
+      <point x="54.6875" y="24.0" />
+    </edge>
+    <edge source="main.command.ICommand" target="main.command.ICommandBase">
+      <point x="0.0" y="-24.0" />
+      <point x="605.0085227272727" y="133.0" />
+      <point x="560.0085227272727" y="133.0" />
+      <point x="65.24999999999994" y="54.0" />
+    </edge>
+    <edge source="main.command.Registration" target="main.command.ICommand">
+      <point x="31.25" y="-24.0" />
+      <point x="384.91477272727275" y="427.0" />
+      <point x="581.5710227272727" y="427.0" />
+      <point x="-23.4375" y="24.0" />
+    </edge>
+    <edge source="main.command.Logout" target="main.command.ICommand">
+      <point x="31.25" y="-24.0" />
+      <point x="677.5085227272727" y="377.0" />
+      <point x="612.8210227272727" y="377.0" />
+      <point x="7.8125" y="24.0" />
+    </edge>
+    <edge source="main.command.Login" target="main.command.ICommand">
+      <point x="31.25" y="-24.0" />
+      <point x="93.75" y="407.0" />
+      <point x="550.3210227272727" y="407.0" />
+      <point x="-54.6875" y="24.0" />
+    </edge>
+    <edge source="main.command.Logout" target="main.command.CommandBase">
+      <point x="-31.25" y="-24.0" />
+      <point x="615.0085227272727" y="387.0" />
+      <point x="423.66988636363635" y="387.0" />
+      <point x="110.39999999999998" y="84.5" />
+    </edge>
+    <edge source="main.command.Registration" target="main.command.CommandBase">
+      <point x="-31.25" y="-24.0" />
+      <point x="322.41477272727275" y="397.0" />
+      <point x="313.2698863636364" y="397.0" />
+      <point x="0.0" y="84.5" />
+    </edge>
+    <edge source="main.command.CommandBase" target="main.command.ICommandBase">
+      <point x="0.0" y="-84.5" />
+      <point x="313.2698863636364" y="133.0" />
+      <point x="429.50852272727275" y="133.0" />
+      <point x="-65.25" y="54.0" />
+    </edge>
+    <edge source="main.command.Exit" target="main.command.CommandBase">
+      <point x="-31.25" y="-24.0" />
+      <point x="177.41477272727275" y="397.0" />
+      <point x="258.0698863636364" y="397.0" />
+      <point x="-55.19999999999999" y="84.5" />
+    </edge>
+    <edge source="main.command.Exit" target="main.command.ICommand">
+      <point x="31.25" y="-24.0" />
+      <point x="239.91477272727275" y="417.0" />
+      <point x="565.9460227272727" y="417.0" />
+      <point x="-39.0625" y="24.0" />
+    </edge>
+    <edge source="main.command.Help" target="main.command.ICommand">
+      <point x="0.0" y="-84.5" />
+      <point x="1185.7585227272727" y="357.0" />
+      <point x="644.0710227272727" y="357.0" />
+      <point x="39.0625" y="24.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="537.5" y="600.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

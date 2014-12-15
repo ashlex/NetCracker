@@ -61,6 +61,17 @@ public class CommandBuilder {
 	}
 
 	/**
+	 * Добавление команды в список доступных
+	 *
+	 * @param command     конкретная комманда
+	 */
+	public void addCommand(ICommand command) {
+		if (command != null) {
+			this.commands.put(command.getAlias(), command);
+		}
+	}
+
+	/**
 	 * Разбирает строку введённую в консоли на тег команды и аргументы
 	 *
 	 * @param line строка введённая в консоль

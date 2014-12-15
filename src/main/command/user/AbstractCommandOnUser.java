@@ -39,7 +39,6 @@ public abstract class AbstractCommandOnUser implements ICommand {
 		daoFactory=null;
 	}
 
-	@Override
 	public String getAlias() {
 		return this.alias;
 	}

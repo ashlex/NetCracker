@@ -10,7 +10,8 @@ public class SaveUser extends AbstractCommandOnUser {
 
 	@Override
 	public boolean execute() throws IOException {
-		return false;
+		System.out.println("Command:"+this.getClass().getName());
+		return true;
 	}
 
 }

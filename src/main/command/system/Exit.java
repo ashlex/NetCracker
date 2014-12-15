@@ -13,12 +13,13 @@ public class Exit implements ICommand {
 
 	@Override
 	public boolean execute() throws IOException {
+		System.out.println("Command:"+this.getClass().getName());
 		System.exit(0);
 		return true;
 	}
 
 	@Override
 	public String getAlias() {
-		return null;
+		return this.alias;
 	}
 }

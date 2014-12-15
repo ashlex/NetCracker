@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>main.entity</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">main.entity.UserContext</node>
+    <node x="185.5" y="479.0">main.entity.User</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.entity.User" target="main.entity.UserContext">
+      <point x="0.0" y="-44.5" />
+      <point x="0.0" y="214.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="47.5" y="391.0" />
+  <SelectedNodes>
+    <node>main.entity.UserContext</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

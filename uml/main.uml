@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>main</OriginalElement>
+  <nodes>
+    <node x="388.29166666666663" y="316.0">main.dao</node>
+    <node x="301.625" y="414.0">main.command</node>
+    <node x="609.0416666666666" y="0.0">main.resources</node>
+    <node x="160.04166666666666" y="20.0">main.IObserver</node>
+    <node x="12.791666666666686" y="502.0">main.ViewConsole</node>
+    <node x="286.54166666666663" y="188.0">main.entity</node>
+    <node x="0.0" y="138.0">main.IView</node>
+    <node x="353.8927083333333" y="861.0">main.Main</node>
+    <node x="326.04166666666663" y="0.0">main.IObservable</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.ViewConsole" target="main.command">
+      <point x="126.66666666666669" y="-154.5" />
+      <point x="329.45833333333337" y="482.0" />
+      <point x="362.625" y="482.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="main.command" target="main.command">
+      <point x="-40.666666666666664" y="14.0" />
+      <point x="321.9583333333333" y="462.0" />
+      <point x="281.625" y="462.0" />
+      <point x="281.625" y="428.0" />
+      <point x="-61.0" y="-0.0" />
+    </edge>
+    <edge source="main.dao" target="main.entity">
+      <point x="0.0" y="-14.0" />
+      <point x="435.79166666666663" y="296.0" />
+      <point x="365.29166666666663" y="296.0" />
+      <point x="26.25" y="14.0" />
+    </edge>
+    <edge source="main.Main" target="main.entity">
+      <point x="54.0" y="-24.0" />
+      <point x="479.8927083333333" y="836.0" />
+      <point x="493.79166666666663" y="836.0" />
+      <point x="493.79166666666663" y="286.0" />
+      <point x="382.79166666666663" y="286.0" />
+      <point x="43.75" y="14.0" />
+    </edge>
+    <edge source="main.command" target="main.dao">
+      <point x="40.666666666666686" y="-14.0" />
+      <point x="403.2916666666667" y="394.0" />
+      <point x="447.66666666666663" y="394.0" />
+      <point x="11.875" y="14.0" />
+    </edge>
+    <edge source="main.entity" target="main.entity">
+      <point x="-43.75" y="14.0" />
+      <point x="295.29166666666663" y="236.0" />
+      <point x="266.54166666666663" y="236.0" />
+      <point x="266.54166666666663" y="202.0" />
+      <point x="-52.5" y="-0.0" />
+    </edge>
+    <edge source="main.command" target="main.entity">
+      <point x="-40.666666666666686" y="-14.0" />
+      <point x="321.9583333333333" y="394.0" />
+      <point x="316.0802083333333" y="394.0" />
+      <point x="316.0802083333333" y="296.0" />
+      <point x="330.29166666666663" y="296.0" />
+      <point x="-8.75" y="14.0" />
+    </edge>
+    <edge source="main.Main" target="main.dao">
+      <point x="18.0" y="-24.0" />
+      <point x="443.8927083333333" y="836.0" />
+      <point x="471.41666666666663" y="836.0" />
+      <point x="35.625" y="14.0" />
+    </edge>
+    <edge source="main.ViewConsole" target="main.entity">
+      <point x="0.0" y="-154.5" />
+      <point x="202.79166666666669" y="482.0" />
+      <point x="167.24687500000002" y="482.0" />
+      <point x="167.24687500000002" y="286.0" />
+      <point x="312.79166666666663" y="286.0" />
+      <point x="-26.25" y="14.0" />
+    </edge>
+    <edge source="main.Main" target="main.ViewConsole">
+      <point x="-54.0" y="-24.0" />
+      <point x="371.8927083333333" y="836.0" />
+      <point x="202.79166666666669" y="836.0" />
+      <point x="0.0" y="154.5" />
+    </edge>
+    <edge source="main.dao" target="main.dao">
+      <point x="-35.625" y="14.0" />
+      <point x="400.16666666666663" y="364.0" />
+      <point x="368.29166666666663" y="364.0" />
+      <point x="368.29166666666663" y="337.0" />
+      <point x="-47.5" y="7.0" />
+    </edge>
+    <edge source="main.Main" target="main.command">
+      <point x="-18.0" y="-24.0" />
+      <point x="407.8927083333333" y="836.0" />
+      <point x="403.2916666666667" y="836.0" />
+      <point x="40.66666666666669" y="14.0" />
+    </edge>
+    <edge source="main.ViewConsole" target="main.IView">
+      <point x="-126.66666666666669" y="-154.5" />
+      <point x="76.125" y="482.0" />
+      <point x="112.5" y="482.0" />
+      <point x="0.0" y="64.0" />
+    </edge>
+    <edge source="main.entity" target="main.IObserver">
+      <point x="-35.0" y="-14.0" />
+      <point x="304.04166666666663" y="118.0" />
+      <point x="233.04166666666666" y="118.0" />
+      <point x="0.0" y="24.0" />
+    </edge>
+    <edge source="main.entity" target="main.IObservable">
+      <point x="35.0" y="-14.0" />
+      <point x="374.04166666666663" y="118.0" />
+      <point x="445.04166666666663" y="118.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="main.IView" target="main.IObserver">
+      <point x="0.0" y="-64.0" />
+      <point x="112.5" y="118.0" />
+      <point x="184.375" y="118.0" />
+      <point x="-48.66666666666666" y="24.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="458.5" y="509.0" />
+  <SelectedNodes>
+    <node>main.dao</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

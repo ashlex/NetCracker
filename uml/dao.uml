@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>main.dao</OriginalElement>
+  <nodes>
+    <node x="335.25" y="30.0">main.dao.IDaoFactory</node>
+    <node x="0.0" y="178.0">main.dao.FileDaoUserContext</node>
+    <node x="9.0" y="417.0">main.dao.FileDaoUserContextTest</node>
+    <node x="52.25" y="0.0">main.dao.IDaoUserContext</node>
+    <node x="282.0" y="228.0">main.dao.DaoFactory</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.dao.DaoFactory" target="main.dao.IDaoFactory">
+      <point x="65.25" y="-44.5" />
+      <point x="0.0" y="34.0" />
+    </edge>
+    <edge source="main.dao.DaoFactory" target="main.dao.IDaoUserContext">
+      <point x="-65.25" y="-44.5" />
+      <point x="347.25" y="153.0" />
+      <point x="249.5" y="153.0" />
+      <point x="65.75" y="64.0" />
+    </edge>
+    <edge source="main.dao.FileDaoUserContextTest" target="main.dao.FileDaoUserContext">
+      <point x="54.5" y="-94.5" />
+      <point x="172.5" y="392.0" />
+      <point x="177.0" y="392.0" />
+      <point x="59.0" y="94.5" />
+    </edge>
+    <edge source="main.dao.FileDaoUserContext" target="main.dao.IDaoUserContext">
+      <point x="0.0" y="-94.5" />
+      <point x="-65.75" y="64.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="134.5" y="250.0" />
+  <SelectedNodes>
+    <node>main.dao.DaoFactory</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

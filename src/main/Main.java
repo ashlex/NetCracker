@@ -2,7 +2,10 @@ package main;
 
 import main.command.*;
 import main.command.system.Exit;
-import main.command.user.*;
+import main.command.user.Login;
+import main.command.user.Logout;
+import main.command.user.Registration;
+import main.command.user.SaveUser;
 import main.dao.DaoFactory;
 import main.dao.FileDaoUserContext;
 import main.dao.IDaoFactory;
@@ -13,32 +16,16 @@ import main.entity.User;
 import main.entity.UserContext;
 
 import java.io.File;
-import java.util.Enumeration;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class Main {
 	public static void main(String[] args) {
-		if (args.length > 0) {
-			if (args[0].equalsIgnoreCase("test")) {
-				test();
-			} else {
-				init();
-			}
-		}else{
-			init();
-		}
-
+		test();
 	}
 
 	private static void test() {
-		ICommand c = new Exit("exit");
-		System.out.println(c instanceof ICommand);
-		System.out.println(c instanceof ICommandUndo);
-		System.out.println(c instanceof AbstractCommandOnUser);
-		System.out.println(c instanceof AbstractCommandUndoOnUser);
-		Enumeration e = System.getProperties().propertyNames();
-		String p = System.getProperties().getProperty("file.encoding");
+
+		System.out.println("RU2-011".matches("([a-zA-Z]{2,8})[_-]([a-zA-Z]{2}|[0-9]{3})"));
 
 	}
 
@@ -47,7 +34,7 @@ public class Main {
 		UserContext context = new UserContext(); //создаём контекст пользователя
 		User user = new User(context); // создаём пользователя и передаём ему контекст
 		Locale l=new Locale("en","US");
-		IView view = new ViewConsole(System.out, System.in, ResourceBundle.getBundle("main.resources.locale.message", l)); // создаём представление пользователя
+		IView view = new ViewConsole(System.out, System.in); // создаём представление пользователя
 		context.addObserver(view); // добавляем наблюдателя за контекстом
 		CommandHistory<CommandHistoryElement> commandHistory = new CommandHistory<CommandHistoryElement>();
 		InvokerCommand invokerCommand = new InvokerCommand(commandHistory);
@@ -68,20 +55,22 @@ public class Main {
 	}
 
 	private static CommandBuilder createCommands(CommandBuilder commandBuilder) {
-		ICommand test = new Test("test");
-		ICommand login = new Login("login");
-		ICommand logout = new Logout("logout");
-		ICommand registration = new Registration("registration");
-		ICommand saveUser = new SaveUser("saveuser");
-		ICommand exit = new MacroCommand("exit")
-				.add(saveUser)
-				.add(new Exit("exit"));
-		commandBuilder.addCommand(test);
-		commandBuilder.addCommand(login);
-		commandBuilder.addCommand(logout);
-		commandBuilder.addCommand(registration);
-		commandBuilder.addCommand(saveUser);
-		commandBuilder.addCommand(exit);
+		ICommand commands[] ={
+				new Test("test"),
+				new Login("login"),
+				new Logout("logout"),
+				new Registration("registration"),
+				new SaveUser("saveuser"),
+		};
+		for (ICommand command : commands){
+			commandBuilder.addCommand(command);
+		}
+
+		commandBuilder.addCommand(new MacroCommand("exit")
+						.add(commandBuilder.getCommand("saveuser"))
+						.add(new Exit("exit"))
+		);
+
 		return commandBuilder;
 	}
 

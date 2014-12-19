@@ -21,8 +21,8 @@ public class ViewConsole implements IView {
 	private ICommand command;
 	private ResourceBundle message;
 
-	public ViewConsole(OutputStream outputStream, InputStream inputStream, ResourceBundle message) {
-		this.message= message;
+	public ViewConsole(OutputStream outputStream, InputStream inputStream) {
+		this.message= ResourceBundle.getBundle("main.resources.locale.message");
 		this.outputStream = outputStream;
 		this.inputStream = inputStream;
 	}

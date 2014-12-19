@@ -9,5 +9,4 @@ public interface IView extends IObserver{
     public void setInvokerCommand(InvokerCommand invokerCommand);
     public void setCommandBuilder(CommandBuilder commandBuilder);
     public void handle();
-    public void handleEvent();
 }

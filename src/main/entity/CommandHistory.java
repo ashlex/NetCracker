@@ -27,4 +27,5 @@ public class CommandHistory<HistoryElement> {
 	public HistoryElement getLast() {
 		return elements[length - 1];
 	}
+
 }

@@ -79,8 +79,8 @@ public class UserContext implements IObservable, IPerformer {
 		return this.locale;
 	}
 
-	public void setLocale(){
-
+	public void setLocale(Locale locale){
+		this.locale=locale;
 	}
 
 	public void reset() {

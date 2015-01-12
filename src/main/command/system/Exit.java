@@ -4,6 +4,9 @@ import main.command.ICommand;
 
 import java.io.IOException;
 
+/**
+ * This command closes the program.
+ */
 public class Exit implements ICommand {
 	private String alias;
 

@@ -31,11 +31,11 @@ public class Main {
 
 	private static void init() {
 
-		UserContext context = new UserContext(); //создаём контекст пользователя
-		User user = new User(context); // создаём пользователя и передаём ему контекст
+		UserContext context = new UserContext();
+		User user = new User(context);
 		Locale l=new Locale("en","US");
-		IView view = new ViewConsole(System.out, System.in); // создаём представление пользователя
-		context.addObserver(view); // добавляем наблюдателя за контекстом
+		IView view = new ViewConsole(System.out, System.in); // This create new view.
+		context.addObserver(view); // Here we add observer for context.
 		CommandHistory<CommandHistoryElement> commandHistory = new CommandHistory<CommandHistoryElement>();
 		InvokerCommand invokerCommand = new InvokerCommand(commandHistory);
 		IDaoFactory daoFactory = new DaoFactory();

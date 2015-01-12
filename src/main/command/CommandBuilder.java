@@ -24,10 +24,10 @@ public class CommandBuilder {
 	}
 
 	/**
-	 * Возращает комаду с загруженными параметрами
+	 * This function return the command with parameters
 	 *
-	 * @param commandLine строка введённая с консоли
-	 * @return {@link main.command.ICommand} Объект команды готовой к выполнению
+	 * @param commandLine This is string entered to console
+	 * @return {@link main.command.ICommand} Command object ready to run
 	 */
 	public ICommand getCommand(String commandLine) {
 		parseLine(commandLine);
@@ -49,10 +49,10 @@ public class CommandBuilder {
 	}
 
 	/**
-	 * Добавление команды в список доступных
+	 * This function add a command in the list
 	 *
-	 * @param commandName тег по которому будет вызываться команда
-	 * @param command     конкретная комманда
+	 * @param commandName This is tag for execute command
+	 * @param command     Concrete command
 	 */
 	public void addCommand(String commandName, ICommand command) {
 		if (command != null) {
@@ -61,20 +61,20 @@ public class CommandBuilder {
 	}
 
 	/**
-	 * Добавление команды в список доступных
+	 * This function add a command in the list.
 	 *
-	 * @param command     конкретная комманда
+	 * @param command     Concrete command
 	 */
 	public void addCommand(ICommand command) {
 		if (command != null) {
-			this.commands.put(command.getAlias(), command);
+			addCommand(command.getAlias(), command);
 		}
 	}
 
 	/**
-	 * Разбирает строку введённую в консоли на тег команды и аргументы
+	 * Parses the entered string from the console.
 	 *
-	 * @param line строка введённая в консоль
+	 * @param line Text entered from the console.
 	 */
 	private void parseLine(String line) {
 		String tmp[] = line.split("\\s+");

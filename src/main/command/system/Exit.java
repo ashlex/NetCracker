@@ -25,4 +25,9 @@ public class Exit implements ICommand {
 	public String getAlias() {
 		return this.alias;
 	}
+
+	@Override
+	public String getHelp() {
+		return null;
+	}
 }

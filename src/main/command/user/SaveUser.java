@@ -14,4 +14,9 @@ public class SaveUser extends AbstractCommandOnUser {
 		return true;
 	}
 
+	@Override
+	public String getHelp() {
+		return null;
+	}
+
 }

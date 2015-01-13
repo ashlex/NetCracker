@@ -1,5 +1,7 @@
 package main.command;
 
+import main.IObservable;
+import main.IObserver;
 import main.command.user.AbstractCommandOnUser;
 import main.dao.IDaoFactory;
 import main.entity.UserContext;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandBuilder {
+public class CommandBuilder implements IObservable {
 	private Map<String, ICommand> commands = new HashMap<String, ICommand>();
 	private ArrayList<String> attributes;
 	private String commandName;
@@ -87,5 +89,20 @@ public class CommandBuilder {
 		} else {
 			attributes = null;
 		}
+	}
+
+	@Override
+	public void addObserver(IObserver o) {
+
+	}
+
+	@Override
+	public void removeObserver(IObserver o) {
+
+	}
+
+	@Override
+	public void notifyObserver() {
+
 	}
 }

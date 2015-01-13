@@ -21,4 +21,9 @@ public class Registration extends AbstractCommandOnUser {
 		return daoFactory.getDaoUserContext().add(userContext);
 	}
 
+	@Override
+	public String getHelp() {
+		return null;
+	}
+
 }

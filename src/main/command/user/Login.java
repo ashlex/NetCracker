@@ -32,4 +32,9 @@ public class Login extends AbstractCommandOnUser {
 		return false;
 	}
 
+	@Override
+	public String getHelp() {
+		return "[]";
+	}
+
 }

@@ -16,4 +16,9 @@ public class Logout extends AbstractCommandOnUser {
 		context.notifyObserver();
 		return true;
 	}
+
+	@Override
+	public String getHelp() {
+		return null;
+	}
 }

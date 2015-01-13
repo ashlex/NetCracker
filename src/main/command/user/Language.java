@@ -23,6 +23,11 @@ public class Language extends AbstractCommandOnUser {
 		return false;
 	}
 
+	@Override
+	public String getHelp() {
+		return null;
+	}
+
 	private Locale getLocale(){
 		switch (attributes.size()){
 			case 1:

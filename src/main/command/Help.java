@@ -16,4 +16,9 @@ public class Help extends AbstractCommandOnUser {
 	public boolean execute() throws IOException {
 		return true;
 	}
+
+	@Override
+	public String getHelp() {
+		return null;
+	}
 }

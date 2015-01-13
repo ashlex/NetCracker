@@ -21,5 +21,10 @@ public class Test extends AbstractCommandOnUser {
 	    return true;
     }
 
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
 
 }

@@ -41,6 +41,8 @@ public class Main {
 		IDaoFactory daoFactory = new DaoFactory();
 		String path = Main.class.getResource("resources/UserContext").getPath();
 		File fileUserContext = new File(path);
+		path=Main.class.getResource("resources/CommandHelp").getPath();
+		File fileCommandHelp = new  File(path);
 		IDaoUserContext daoUserContext = new FileDaoUserContext(fileUserContext);
 		daoFactory.setDaoUserContext(daoUserContext);
 

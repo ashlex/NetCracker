@@ -27,14 +27,14 @@ public class Login extends AbstractCommandOnUser {
 						return true;
 					}
 				}
-			}//test
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public String getHelp() {
-		return "[]";
+		return "[login] [password]";
 	}
 
 }

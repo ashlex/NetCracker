@@ -27,7 +27,7 @@ public class Login extends AbstractCommandOnUser {
 						return true;
 					}
 				}
-			}
+			}//test
 		}
 		return false;
 	}

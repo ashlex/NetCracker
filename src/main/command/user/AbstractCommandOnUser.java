@@ -1,10 +1,12 @@
 package main.command.user;
 
+import main.command.ExecuteResult;
 import main.command.ICommand;
 import main.dao.IDaoFactory;
 import main.entity.UserContext;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public abstract class AbstractCommandOnUser implements ICommand {
 	protected UserContext context;
@@ -12,8 +14,26 @@ public abstract class AbstractCommandOnUser implements ICommand {
 	protected IDaoFactory daoFactory;
 	protected String alias;
 
-	public AbstractCommandOnUser(String alias){
+
+	protected ExecuteResult executeResult;
+	protected ResourceBundle resourceBundle;
+
+	public AbstractCommandOnUser(String alias) {
 		this.alias=alias;
+		this.resourceBundle = ResourceBundle.getBundle("main.resources.locale.message");
+		executeResult = new ExecuteResult(this, ExecuteResult.FAIL, "no exec");
+	}
+
+	public AbstractCommandOnUser(String alias, ResourceBundle resourceBundle) {
+		this.alias=alias;
+		this.resourceBundle = resourceBundle;
+		executeResult = new ExecuteResult(this, ExecuteResult.FAIL, "no exec");
+	}
+
+	public AbstractCommandOnUser(String alias, ResourceBundle resourceBundle, ExecuteResult executeResult) {
+		this.alias=alias;
+		this.resourceBundle = resourceBundle;
+		this.executeResult = executeResult;
 	}
 
 	public void setContext(UserContext context) {

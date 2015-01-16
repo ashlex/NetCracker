@@ -16,8 +16,10 @@ import main.entity.User;
 import main.entity.UserContext;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.logging.LogManager;
 
 public class Main {
 	public static void main(String[] args) {
@@ -38,6 +40,7 @@ public class Main {
 	}
 
 	private static void init() {
+		configureLog();
 
 		UserContext context = new UserContext();
 		User user = new User(context);
@@ -70,18 +73,24 @@ public class Main {
 				new Login("login"),
 				new Logout("logout"),
 				new Registration("registration"),
-				new SaveUser("saveuser"),
 		};
 		for (ICommand command : commands){
 			commandBuilder.addCommand(command);
 		}
 
 		commandBuilder.addCommand(new MacroCommand("exit")
-						.add(commandBuilder.getCommand("saveuser"))
+						.add(commandBuilder.getCommand("logout"))
 						.add(new Exit("exit"))
 		);
 
 		return commandBuilder;
 	}
-
+	private static void configureLog(){
+		try {
+			LogManager.getLogManager().readConfiguration(
+					Main.class.getResourceAsStream("resources/log.properties"));
+		} catch (IOException e) {
+			System.err.println(e);
+		}
+	}
 }

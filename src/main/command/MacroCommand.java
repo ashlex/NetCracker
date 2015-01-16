@@ -22,10 +22,10 @@ public class MacroCommand implements ICommand {
 
 	@Override
 	public ExecuteResult execute() throws IOException {
-		boolean res=true;
 		for(Iterator<ICommand> iterator=commands.iterator();iterator.hasNext();){
-			if(iterator.next().execute().getResult()!=ExecuteResult.NO_EXEC){
-				res=false;
+			ExecuteResult result=iterator.next().execute();
+			if(result.getResult()==ExecuteResult.FAIL){
+				return new ExecuteResult(this,ExecuteResult.FAIL,result.getMessage());
 			}
 		}
 		return null;

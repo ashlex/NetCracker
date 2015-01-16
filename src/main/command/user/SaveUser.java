@@ -13,7 +13,7 @@ public class SaveUser extends AbstractCommandOnUser {
 	@Override
 	public ExecuteResult execute() throws IOException {
 		System.out.println("Command:"+this.getClass().getName());
-		return new ExecuteResult(this,ExecuteResult.EXEC,"This user is saving.");
+		return new ExecuteResult(this,ExecuteResult.SUCCESS,"This user is saving.");
 	}
 
 	@Override

@@ -4,9 +4,10 @@ package main.command;
  * Created by Alexej on 16.01.2015.
  */
 public class ExecuteResult {
-    public final static int NO_EXEC=0;
-    public final static int EXEC_HELP=1;
-    public final static int EXEC=2;
+    public final static int FAIL =0;
+    public final static int GET_HELP =1;
+    public final static int SUCCESS =2;
+    public final static int WARNING =3;
 
     private String message;
     private int result;
@@ -33,6 +34,7 @@ public class ExecuteResult {
 
     public void setResult(int result) {
         this.result = result;
+        this.message = "";
     }
 
     public ICommand getCommand() {

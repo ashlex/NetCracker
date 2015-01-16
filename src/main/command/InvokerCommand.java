@@ -5,11 +5,13 @@ import main.entity.CommandHistory;
 import main.entity.CommandHistoryElement;
 
 import java.io.IOException;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class InvokerCommand {
 	private CommandHistory commandHistory;
 	Logger log=Logger.getLogger(InvokerCommand.class.getName());
+
 
 	public InvokerCommand(CommandHistory commandHistory){
 		this.commandHistory=commandHistory;
@@ -20,8 +22,9 @@ public class InvokerCommand {
 		try {
 
 			result=command.execute();
-//			commandHistory.add();
-
+			if(result.getResult()==ExecuteResult.FAIL){
+				log.info(result.getCommand().getClass().getName() + " Message:" + result.getMessage());
+			}
 			if(command instanceof AbstractCommandOnUser){
 				((AbstractCommandOnUser)command).reset();
 			}

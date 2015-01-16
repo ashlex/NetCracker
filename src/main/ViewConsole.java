@@ -1,6 +1,7 @@
 package main;
 
 import main.command.CommandBuilder;
+import main.command.ExecuteResult;
 import main.command.ICommand;
 import main.command.InvokerCommand;
 import main.entity.User;
@@ -51,11 +52,13 @@ public class ViewConsole implements IView {
 	@Override
 	public void handle() {
 		Scanner scn = new Scanner(inputStream);
+		ExecuteResult result;
 		while (true) {
 			print("\n"+joinStringArray(invite, " "));
 			command = commandBuilder.getCommand(scn.nextLine());
 			if(command!=null) {
-				invokerCommand.storeAndExecute(command, user.getContext());
+				result=invokerCommand.storeAndExecute(command, user.getContext());
+				print(result.getMessage());
 			}else {
 				print(message.getString("COMMAND_NO_FOUND"));
 			}

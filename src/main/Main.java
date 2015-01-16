@@ -16,16 +16,24 @@ import main.entity.User;
 import main.entity.UserContext;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Main {
 	public static void main(String[] args) {
 		init();
+
 	}
 
 	private static void test() {
-
-		System.out.println("RU2-011".matches("([a-zA-Z]{2,8})[_-]([a-zA-Z]{2}|[0-9]{3})"));
+		ArrayList<String> test=new ArrayList<String>();
+		test.add("fdgsd");
+		test.add("get");
+		test.add("set");
+		test.add("root");
+		test.add("this");
+		System.out.println(test.contains("get"));
+		System.out.println(test.contains("get1"));
 
 	}
 

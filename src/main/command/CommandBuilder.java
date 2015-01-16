@@ -84,7 +84,9 @@ public class CommandBuilder implements IObservable {
 		if (tmp.length > 1) {
 			attributes = new ArrayList<String>(tmp.length - 1);
 			for (int i = 1; i < tmp.length; i++) {
-				attributes.add(tmp[i]);
+				if(tmp[i].startsWith("-")){
+					attributes.add(tmp[i].substring(1));
+				}
 			}
 		} else {
 			attributes = null;

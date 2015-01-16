@@ -1,5 +1,7 @@
 package main.command.user;
 
+import main.command.ExecuteResult;
+
 import java.io.IOException;
 import java.util.Locale;
 
@@ -14,13 +16,12 @@ public class Language extends AbstractCommandOnUser {
 	}
 
 	@Override
-	public boolean execute() throws IOException {
+	public ExecuteResult execute() throws IOException {
 		Locale locale=getLocale();
 		if(locale!=null) {
 			context.setLocale(locale);
-			return true;
 		}
-		return false;
+		return null;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package main.command.user;
 
+import main.command.ExecuteResult;
+
 import java.io.IOException;
 
 public class Logout extends AbstractCommandOnUser {
@@ -9,12 +11,12 @@ public class Logout extends AbstractCommandOnUser {
 	}
 
 	@Override
-	public boolean execute() throws IOException {
+	public ExecuteResult execute() throws IOException {
 		context.setOnline(false);
 		daoFactory.getDaoUserContext().update(context);
 		context.reset();
 		context.notifyObserver();
-		return true;
+		return null;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package main.command.user;
 
+import main.command.ExecuteResult;
+
 import java.io.IOException;
 
 public class SaveUser extends AbstractCommandOnUser {
@@ -9,9 +11,9 @@ public class SaveUser extends AbstractCommandOnUser {
 	}
 
 	@Override
-	public boolean execute() throws IOException {
+	public ExecuteResult execute() throws IOException {
 		System.out.println("Command:"+this.getClass().getName());
-		return true;
+		return new ExecuteResult(this,ExecuteResult.EXEC,"This user is saving.");
 	}
 
 	@Override

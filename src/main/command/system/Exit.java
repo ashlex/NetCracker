@@ -1,5 +1,6 @@
 package main.command.system;
 
+import main.command.ExecuteResult;
 import main.command.ICommand;
 
 import java.io.IOException;
@@ -15,10 +16,10 @@ public class Exit implements ICommand {
 	}
 
 	@Override
-	public boolean execute() throws IOException {
+	public ExecuteResult execute() throws IOException {
 		System.out.println("Command:"+this.getClass().getName());
 		System.exit(0);
-		return true;
+		return null;
 	}
 
 	@Override

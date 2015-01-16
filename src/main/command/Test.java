@@ -11,14 +11,14 @@ public class Test extends AbstractCommandOnUser {
 	}
 
 	@Override
-    public boolean execute() throws IOException {
+    public ExecuteResult execute() throws IOException {
         String str = "root";
         if (attributes != null) {
             str = attributes.get(0);
         }
         context.setNickname(str);
         context.notifyObserver();
-	    return true;
+	    return null;
     }
 
     @Override

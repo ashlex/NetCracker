@@ -1,6 +1,7 @@
 package main.command.system;
 
 import main.IObserver;
+import main.command.ExecuteResult;
 import main.command.ICommand;
 
 import java.io.IOException;
@@ -17,11 +18,11 @@ public class Help implements ICommand {
     }
 
     @Override
-    public boolean execute() throws IOException {
+    public ExecuteResult execute() throws IOException {
         for(ICommand command : commandList){
 //            command.
         }
-        return false;
+        return null;
     }
 
     @Override

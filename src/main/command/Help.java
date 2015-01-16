@@ -13,8 +13,8 @@ public class Help extends AbstractCommandOnUser {
 	}
 
 	@Override
-	public boolean execute() throws IOException {
-		return true;
+	public ExecuteResult execute() throws IOException {
+		return null;
 	}
 
 	@Override

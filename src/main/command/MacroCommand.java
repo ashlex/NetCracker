@@ -21,14 +21,14 @@ public class MacroCommand implements ICommand {
 	}
 
 	@Override
-	public boolean execute() throws IOException {
+	public ExecuteResult execute() throws IOException {
 		boolean res=true;
 		for(Iterator<ICommand> iterator=commands.iterator();iterator.hasNext();){
-			if(!iterator.next().execute()){
+			if(iterator.next().execute().getResult()!=ExecuteResult.NO_EXEC){
 				res=false;
 			}
 		}
-		return res;
+		return null;
 	}
 
 	public String getAlias() {

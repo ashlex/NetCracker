@@ -15,19 +15,22 @@ public class InvokerCommand {
 		this.commandHistory=commandHistory;
 	}
 
-	public void storeAndExecute(ICommand command, IPerformer performer){
+	public ExecuteResult storeAndExecute(ICommand command, IPerformer performer){
+		ExecuteResult result=null;
 		try {
-			boolean result=command.execute();
-			commandHistory.add(new CommandHistoryElement(performer,command,result));
+
+			result=command.execute();
+//			commandHistory.add();
 
 			if(command instanceof AbstractCommandOnUser){
 				((AbstractCommandOnUser)command).reset();
 			}
-
-			log.info(commandHistory.getLast().toString());
+			return result;
+//			log.info(commandHistory.getLast().toString());
 		} catch (IOException e) {
 			log.info(e.getMessage());
 		}
+		return result;
 	}
 
 

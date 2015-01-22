@@ -57,10 +57,11 @@ public class Main {
 		IDaoUserContext daoUserContext = new FileDaoUserContext(fileUserContext);
 		daoFactory.setDaoUserContext(daoUserContext);
 
-		CommandBuilder commandBuilder = createCommands(new CommandBuilder());
-
+		CommandBuilder commandBuilder = new CommandBuilder();
 		commandBuilder.setDaoFactory(daoFactory);
 		commandBuilder.setReceiver(context);
+		createCommands(commandBuilder);
+
 		view.setCommandBuilder(commandBuilder);
 		view.setInvokerCommand(invokerCommand);
 		view.setUser(user);
@@ -73,6 +74,7 @@ public class Main {
 				new Login("login"),
 				new Logout("logout"),
 				new Registration("registration"),
+				new SaveUser("saveuser"),
 		};
 		for (ICommand command : commands){
 			commandBuilder.addCommand(command);

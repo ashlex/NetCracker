@@ -111,4 +111,16 @@ public class UserContext implements IObservable, IPerformer {
 			observer.handleEvent();
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "UserContext{" +
+				"nickname='" + nickname + '\'' +
+				", password='" + password + '\'' +
+				", name='" + name + '\'' +
+				", role=" + role +
+				", online=" + online +
+				", locale=" + locale +
+				'}';
+	}
 }

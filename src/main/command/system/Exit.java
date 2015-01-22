@@ -17,7 +17,6 @@ public class Exit implements ICommand {
 
 	@Override
 	public ExecuteResult execute() throws IOException {
-		System.out.println("Command:"+this.getClass().getName());
 		System.exit(0);
 		return null;
 	}

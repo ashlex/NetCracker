@@ -27,7 +27,7 @@ public class Login extends AbstractCommandOnUser {
     public ExecuteResult execute() throws IOException {
         if (context.isOnline()) {
             executeResult.setResult(ExecuteResult.FAIL);
-            executeResult.setMessage("Can not log in because it is already authorized.");
+            executeResult.setMessage("You cannot login, because already authorized to.");
             return executeResult;
         }
         if (attributes != null) {
@@ -48,7 +48,10 @@ public class Login extends AbstractCommandOnUser {
                         context.setOnline(true);
                         daoFactory.getDaoUserContext().update(context);
                         context.notifyObserver();
-                        executeResult.setResult(ExecuteResult.SUCCESS);
+                        executeResult.setResult(ExecuteResult.SUCCESS, resourceBundle.getString("WELCOME")+" "+context.getName());
+                        log.fine("User "+context.getNickname()+" login.");
+                        log.fine(context.toString());
+
                         return executeResult;
                     }
                 }else{

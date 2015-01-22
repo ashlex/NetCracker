@@ -7,8 +7,10 @@ import main.entity.UserContext;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public abstract class AbstractCommandOnUser implements ICommand {
+	protected Logger log=Logger.getLogger(this.getClass().getName());
 	protected UserContext context;
 	protected ArrayList<String> attributes;
 	protected IDaoFactory daoFactory;

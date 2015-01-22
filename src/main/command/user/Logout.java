@@ -30,12 +30,18 @@ public class Logout extends AbstractCommandOnUser {
 				executeResult.setResult(ExecuteResult.FAIL);
 				executeResult.setMessage(resourceBundle.getString("RECORDING_FAILED"));
 				context.setOnline(true);
+				log.severe(context.getNickname() + " " + resourceBundle.getString("RECORDING_FAILED"));
 				return executeResult;
 			}
-			executeResult.setResult(ExecuteResult.SUCCESS);
-			executeResult.setMessage("Good by");
 			context.reset();
 			context.notifyObserver();
+			executeResult.setResult(ExecuteResult.SUCCESS);
+			executeResult.setMessage(resourceBundle.getString("GOOD_BY"));
+			log.fine("User logout.");
+			log.fine(context.toString());
+		} else {
+			executeResult.setResult(ExecuteResult.WARNING, resourceBundle.getString("NO_AUTHORISATION"));
+			log.info("Trying logout failed, because you are not logged in.");
 		}
 		return executeResult;
 	}

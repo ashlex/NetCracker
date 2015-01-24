@@ -50,7 +50,7 @@ public class ViewConsole implements IView {
 	}
 
 	@Override
-	public void handle() {
+	public void handle(){
 		Scanner scn = new Scanner(inputStream);
 		ExecuteResult result;
 		while (true) {

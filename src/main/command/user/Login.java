@@ -34,6 +34,7 @@ public class Login extends AbstractCommandOnUser {
             if (attributes.contains("help") || attributes.contains("?")) {
                 executeResult.setResult(ExecuteResult.GET_HELP);
                 executeResult.setMessage(getHelp());
+	            log.fine("Calling getHelp.");
                 return executeResult;
             }
 
@@ -51,22 +52,24 @@ public class Login extends AbstractCommandOnUser {
                         executeResult.setResult(ExecuteResult.SUCCESS, resourceBundle.getString("WELCOME")+" "+context.getName());
                         log.fine("User "+context.getNickname()+" login.");
                         log.fine(context.toString());
-
                         return executeResult;
                     }
                 }else{
                     executeResult.setResult(ExecuteResult.FAIL);
                     executeResult.setMessage(resourceBundle.getString("NICKNAME_NOT_FOUND"));
+	                log.fine("User with this nickname is not found.");
                     return executeResult;
                 }
             }else{
                 executeResult.setResult(ExecuteResult.FAIL);
                 executeResult.setMessage(resourceBundle.getString("ILLEGAL_ARGUMENT"));
+	            log.fine("Count of attributes is less than two.");
             }
 
         } else {
             executeResult.setResult(ExecuteResult.FAIL);
             executeResult.setMessage(resourceBundle.getString("ILLEGAL_ARGUMENT"));
+	        log.info("Collection of attributes is null.");
         }
         return executeResult;
     }

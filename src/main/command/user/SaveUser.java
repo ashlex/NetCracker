@@ -36,7 +36,7 @@ public class SaveUser extends AbstractCommandOnUser {
         if (!context.isOnline()) {
             executeResult.setResult(ExecuteResult.FAIL);
             executeResult.setMessage(resourceBundle.getString("NO_AUTHORISATION"));
-            log.info(resourceBundle.getString("NO_AUTHORISATION")+"38");
+            log.info("Attempt to save is failed, because you don't logged in.");
         } else {
             if (daoFactory.getDaoUserContext().update(context)) {
                 executeResult.setResult(ExecuteResult.SUCCESS, resourceBundle.getString("CHANGES_SAVED"));

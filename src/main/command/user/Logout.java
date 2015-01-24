@@ -24,6 +24,8 @@ public class Logout extends AbstractCommandOnUser {
 
 	@Override
 	public ExecuteResult execute() throws IOException {
+		log.fine(context.toString());
+
 		if(context.isOnline()) {
 			context.setOnline(false);
 			if(!daoFactory.getDaoUserContext().update(context)){

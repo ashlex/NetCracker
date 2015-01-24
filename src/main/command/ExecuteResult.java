@@ -2,7 +2,7 @@ package main.command;
 
 /**
  *
- * Objects on this class are result of execute commands. They contain code execution,
+ * Objects on this class are result of execute commands. They contain code of execution,
  * a message received at runtime and a link on execution command.
  */
 public class ExecuteResult {
@@ -10,6 +10,7 @@ public class ExecuteResult {
     public final static int GET_HELP = 1;
     public final static int SUCCESS = 2;
     public final static int WARNING = 3;
+//    public final static int ERROR = 4;
 
     private String message;
     private int result;

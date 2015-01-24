@@ -17,25 +17,19 @@ import main.entity.UserContext;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class Main {
 	public static void main(String[] args) {
+		test();
 		init();
 
 	}
 
 	private static void test() {
-		ArrayList<String> test=new ArrayList<String>();
-		test.add("fdgsd");
-		test.add("get");
-		test.add("set");
-		test.add("root");
-		test.add("this");
-		System.out.println(test.contains("get"));
-		System.out.println(test.contains("get1"));
+
 
 	}
 
@@ -94,5 +88,13 @@ public class Main {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
+		Logger logger=Logger.getLogger(Main.class.getName());
+//		Logger.getGlobal().setLevel(Level.ALL);
+		logger.severe("test");
+		logger.warning("test");
+		logger.info("test");
+		logger.fine("test");
+		logger.finer("test");
+		logger.finest("test");
 	}
 }

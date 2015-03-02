@@ -1,7 +1,5 @@
 package main.command;
 
-import main.IObservable;
-import main.IObserver;
 import main.command.user.AbstractCommandOnUser;
 import main.dao.IDaoFactory;
 import main.entity.UserContext;
@@ -11,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class CommandBuilder implements IObservable {
+public class CommandBuilder {
     private Map<String, ICommand> commands = new HashMap<String, ICommand>();
     private ArrayList<String> attributes;
     private String commandName;
@@ -29,7 +27,7 @@ public class CommandBuilder implements IObservable {
     }
 
     /**
-     * This function return the command with parameters
+     * This function returns the command with parameters
      *
      * @param commandLine This is string entered to console
      * @return {@link main.command.ICommand} Command object ready to run
@@ -96,18 +94,4 @@ public class CommandBuilder implements IObservable {
         }
     }
 
-    @Override
-    public void addObserver(IObserver o) {
-
-    }
-
-    @Override
-    public void removeObserver(IObserver o) {
-
-    }
-
-    @Override
-    public void notifyObserver() {
-
-    }
 }

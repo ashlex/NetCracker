@@ -7,6 +7,7 @@ import main.command.IPerformer;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class UserContext implements IObservable, IPerformer {
 	private Set<IObserver> observers = new HashSet<IObserver>();
@@ -16,6 +17,7 @@ public class UserContext implements IObservable, IPerformer {
 	private int role;
 	private boolean online;
 	private Locale locale;
+	private Logger log=Logger.getLogger(this.getClass().getName());
 
 
 	public UserContext() {
@@ -84,11 +86,31 @@ public class UserContext implements IObservable, IPerformer {
 	}
 
 	public void reset() {
-		this.nickname = null;
-		this.password = null;
-		this.name = null;
-		this.role = 0;
-		this.online = false;
+		if(nickname==null){
+			log.fine("Field \"nickname\" can not be null because already null.");
+		}else {
+			this.nickname = null;
+		}
+		if(password==null){
+			log.fine("Field \"password\" can not be null because already null.");
+		}else {
+			this.password = null;
+		}
+		if(name==null || name.equalsIgnoreCase("null")){
+			log.fine("Field \"name\" can not be null because already null.");
+		}else {
+			this.name = null;
+		}
+		if(this.role==0){
+			log.fine("Field \"role\" can not be 0 because already 0.");
+		}else {
+			this.role = 0;
+		}
+		if(!this.online){
+			log.fine("Field \"online\" can not be false because already false.");
+		}else {
+			this.online = false;
+		}
 	}
 
 	@Override

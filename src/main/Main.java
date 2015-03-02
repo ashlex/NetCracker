@@ -69,14 +69,15 @@ public class Main {
 				new Logout("logout"),
 				new Registration("registration"),
 				new SaveUser("saveuser"),
+				new Exit("quit"),
 		};
 		for (ICommand command : commands){
 			commandBuilder.addCommand(command);
 		}
 
-		commandBuilder.addCommand(new MacroCommand("exit")
+		commandBuilder.addCommand(new MacroCommand("exit", commandBuilder)
 						.add(commandBuilder.getCommand("logout"))
-						.add(new Exit("exit"))
+						.add(commandBuilder.getCommand("quit"))
 		);
 
 		return commandBuilder;

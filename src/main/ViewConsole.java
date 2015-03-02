@@ -58,6 +58,7 @@ public class ViewConsole implements IView {
 			command = commandBuilder.getCommand(scn.nextLine());
 			if(command!=null) {
 				result=invokerCommand.storeAndExecute(command, user.getContext());
+				command=null;
 				print(result.getMessage());
 			}else {
 				print(message.getString("COMMAND_NO_FOUND"));

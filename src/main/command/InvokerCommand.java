@@ -23,7 +23,7 @@ public class InvokerCommand {
 				log.fine("Execute command "+command.getAlias()+" is failed.");
 			}
 			if(command instanceof AbstractCommandOnUser){
-				((AbstractCommandOnUser)command).reset();
+				((AbstractCommandOnUser)command).reset(); // Watch it here!!! There may be beginning of the problem!!!
 			}
 			return result;
 		} catch (IOException e) {

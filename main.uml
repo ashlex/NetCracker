@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>main</OriginalElement>
+  <nodes>
+    <node x="-7.5" y="706.0">main.dao</node>
+    <node x="139.0" y="226.0">main.command</node>
+    <node x="158.5" y="506.0">main.IObserver</node>
+    <node x="153.0" y="386.0">main.ViewConsole</node>
+    <node x="347.5" y="106.0">main.entity</node>
+    <node x="143.5" y="106.0">main.console</node>
+    <node x="-28.0" y="226.0">main.Main</node>
+    <node x="593.5" y="106.0">main.IObservable</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.ViewConsole" target="main.command">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="main.command" target="main.command">
+      <point x="40.0" y="14.0" />
+      <point x="240.0" y="320.0" />
+      <point x="320.0" y="320.0" />
+      <point x="320.0" y="248.0" />
+      <point x="61.0" y="8.0" />
+    </edge>
+    <edge source="main.Main" target="main.entity">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="0.0" />
+      <point x="400.0" y="0.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="main.command" target="main.entity">
+      <point x="61.0" y="-0.0" />
+      <point x="360.0" y="240.0" />
+      <point x="-40.0" y="14.0" />
+    </edge>
+    <edge source="main.entity" target="main.entity">
+      <point x="52.5" y="-8.0" />
+      <point x="520.0" y="112.0" />
+      <point x="520.0" y="40.0" />
+      <point x="440.0" y="40.0" />
+      <point x="40.0" y="-14.0" />
+    </edge>
+    <edge source="main.console" target="main.entity">
+      <point x="0.0" y="-14.0" />
+      <point x="200.0" y="40.0" />
+      <point x="360.0" y="40.0" />
+      <point x="-40.0" y="-14.0" />
+    </edge>
+    <edge source="main.ViewConsole" target="main.entity">
+      <point x="47.0" y="-0.0" />
+      <point x="373.3333333333333" y="400.0" />
+      <point x="-26.666666666666686" y="14.0" />
+    </edge>
+    <edge source="main.ViewConsole" target="main.IObserver">
+      <point x="0.0" y="14.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="main.Main" target="main.ViewConsole">
+      <point x="0.0" y="14.0" />
+      <point x="0.0" y="400.0" />
+      <point x="-47.0" y="-0.0" />
+    </edge>
+    <edge source="main.Main" target="main.command">
+      <point x="28.0" y="-0.0" />
+      <point x="-61.0" y="-0.0" />
+    </edge>
+    <edge source="main.entity" target="main.IObserver">
+      <point x="-13.333333333333314" y="14.0" />
+      <point x="386.6666666666667" y="520.0" />
+      <point x="41.5" y="-0.0" />
+    </edge>
+    <edge source="main.console" target="main.command">
+      <point x="-56.5" y="-0.0" />
+      <point x="80.0" y="120.0" />
+      <point x="80.0" y="232.0" />
+      <point x="-61.0" y="-8.0" />
+    </edge>
+    <edge source="main.entity" target="main.IObservable">
+      <point x="52.5" y="-0.0" />
+      <point x="-46.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.2264397905759163" x="264.98826040554957" y="179.26467449306296" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

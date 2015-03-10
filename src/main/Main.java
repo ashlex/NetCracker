@@ -17,11 +17,14 @@ import main.entity.UserContext;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class Main {
+
+	private static Logger log;
 	public static void main(String[] args) {
 		test();
 		init();
@@ -44,9 +47,25 @@ public class Main {
 		CommandHistory<CommandHistoryElement> commandHistory = new CommandHistory<CommandHistoryElement>();
 		InvokerCommand invokerCommand = new InvokerCommand(commandHistory);
 		IDaoFactory daoFactory = new DaoFactory();
-		String path = Main.class.getResource("resources/UserContext").getPath();
+		String path;
+		URL url=Main.class.getResource("resources/UserContext");
+		if(url==null) {
+			log.info("Resource \"UserContext\" not found.");
+			path=System.getProperty("user.dir")+"/main/resource/UserContext";
+		}else {
+			path = url.getPath();
+		}
 		File fileUserContext = new File(path);
+		if(!fileUserContext.exists()){
+			try {
+				fileUserContext.createNewFile();
+			} catch (IOException e) {
+//				log.severe(e.getMessage());
+			}
+		}
 		path=Main.class.getResource("resources/CommandHelp").getPath();
+
+		log.info("path ="+path);
 		File fileCommandHelp = new  File(path);
 		IDaoUserContext daoUserContext = new FileDaoUserContext(fileUserContext);
 		daoFactory.setDaoUserContext(daoUserContext);
@@ -89,13 +108,12 @@ public class Main {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
-		Logger logger=Logger.getLogger(Main.class.getName());
-//		Logger.getGlobal().setLevel(Level.ALL);
-		logger.severe("test");
-		logger.warning("test");
-		logger.info("test");
-		logger.fine("test");
-		logger.finer("test");
-		logger.finest("test");
+		log = Logger.getLogger(Main.class.getName());
+		log.severe("test");
+		log.warning("test");
+		log.info("test");
+		log.fine("test");
+		log.finer("test");
+		log.finest("test");
 	}
 }

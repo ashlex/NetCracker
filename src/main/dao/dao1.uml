@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="499.5" y="46.0">main.dao.IDaoFactory</node>
+    <node x="862.0" y="755.5">main.command.CommandBase</node>
+    <node x="322.0" y="185.5">main.dao.FileDaoUserContext</node>
+    <node x="1737.5" y="816.0">main.command.Login</node>
+    <node x="795.0" y="-34.5">main.command.CommandBuilder</node>
+    <node x="-11.5" y="216.0">main.dao.IDaoUserContext</node>
+    <node x="937.5" y="616.0">main.command.Test</node>
+    <node x="1290.0" y="285.5">main.ViewConsole</node>
+    <node x="869.5" y="1026.0">main.command.ICommandBase</node>
+    <node x="1737.5" y="416.0">main.command.ICommand</node>
+    <node x="-10.5" y="35.5">main.dao.DaoFactory</node>
+    <node x="928.0" y="416.0">main.Main</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.command.CommandBuilder" target="main.dao.IDaoFactory">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.Main" target="main.command.CommandBuilder">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.command.Test" target="main.command.ICommand">
+      <point x="72.5" y="-0.0" />
+      <point x="1760.0" y="640.0" />
+      <point x="-40.0" y="24.0" />
+    </edge>
+    <edge source="main.dao.DaoFactory" target="main.dao.IDaoUserContext">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.command.Test" target="main.command.CommandBase">
+      <point x="0.0" y="34.0" />
+      <point x="0.0" y="-84.5" />
+    </edge>
+    <edge source="main.command.Login" target="main.command.CommandBase">
+      <point x="-62.5" y="-0.0" />
+      <point x="138.0" y="-0.0" />
+    </edge>
+    <edge source="main.command.CommandBuilder" target="main.command.ICommand">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.command.ICommand" target="main.command.ICommandBase">
+      <point x="62.5" y="-0.0" />
+      <point x="1920.0" y="440.0" />
+      <point x="1920.0" y="1080.0" />
+      <point x="130.5" y="-0.0" />
+    </edge>
+    <edge source="main.ViewConsole" target="main.command.CommandBuilder">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.command.Login" target="main.command.ICommand">
+      <point x="0.0" y="-24.0" />
+      <point x="0.0" y="24.0" />
+    </edge>
+    <edge source="main.command.CommandBase" target="main.dao.IDaoFactory">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.dao.DaoFactory" target="main.dao.IDaoFactory">
+      <point x="130.5" y="-0.0" />
+      <point x="-100.5" y="-0.0" />
+    </edge>
+    <edge source="main.ViewConsole" target="main.command.ICommand">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.command.CommandBase" target="main.command.ICommandBase">
+      <point x="0.0" y="84.5" />
+      <point x="0.0" y="-54.0" />
+    </edge>
+    <edge source="main.Main" target="main.ViewConsole">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.Main" target="main.command.Test">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="main.dao.FileDaoUserContext" target="main.dao.IDaoUserContext">
+      <point x="-118.0" y="-0.0" />
+      <point x="131.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="953.5" y="989.0" />
+  <SelectedNodes>
+    <node>main.command.Test</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

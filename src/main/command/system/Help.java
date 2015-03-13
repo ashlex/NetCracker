@@ -1,38 +1,33 @@
 package main.command.system;
 
-import main.IObserver;
 import main.command.ExecuteResult;
-import main.command.ICommand;
+import main.command.user.AbstractCommandOnUser;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ResourceBundle;
 
-/**
- * Created by Alexej on 13.01.2015.
- */
-public class Help implements ICommand {
-    private Collection<ICommand> commandList;
+public class Help extends AbstractCommandOnUser {
 
-    public Help(Collection<ICommand> commandList){
-        this.commandList=commandList;
-    }
 
-    @Override
-    public ExecuteResult execute() throws IOException {
-        for(ICommand command : commandList){
-//            command.
-        }
-        return null;
-    }
+	public Help(String alias) {
+		super(alias);
+	}
 
-    @Override
-    public String getAlias() {
-        return "help";
-    }
+	public Help(String alias, ResourceBundle resourceBundle) {
+		super(alias, resourceBundle);
+	}
 
-    @Override
-    public String getHelp() {
-        return null;
-    }
+	public Help(String alias, ResourceBundle resourceBundle, ExecuteResult executeResult) {
+		super(alias, resourceBundle, executeResult);
+	}
 
+	@Override
+	public ExecuteResult execute() throws IOException {
+		return null;
+	}
+
+	@Override
+	public String getHelp() {
+		return null;
+	}
 }

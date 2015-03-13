@@ -5,6 +5,9 @@ import main.command.ExecuteResult;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+/**
+ * This command working only for console.
+ */
 public class MyInfo extends AbstractCommandOnUser {
 
 	public MyInfo(String alias) {

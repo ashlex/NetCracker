@@ -18,7 +18,7 @@ public class CommandBuilder {
     Logger log = Logger.getLogger(this.getClass().getName());
 
     public void setReceiver(UserContext receiver) {
-        log.info(receiver.toString());
+        log.finer(receiver.toString());
         this.context = receiver;
     }
 

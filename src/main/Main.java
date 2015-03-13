@@ -2,10 +2,7 @@ package main;
 
 import main.command.*;
 import main.command.system.Exit;
-import main.command.user.Login;
-import main.command.user.Logout;
-import main.command.user.Registration;
-import main.command.user.SaveUser;
+import main.command.user.*;
 import main.dao.DaoFactory;
 import main.dao.FileDaoUserContext;
 import main.dao.IDaoFactory;
@@ -47,28 +44,16 @@ public class Main {
 		CommandHistory<CommandHistoryElement> commandHistory = new CommandHistory<CommandHistoryElement>();
 		InvokerCommand invokerCommand = new InvokerCommand(commandHistory);
 		IDaoFactory daoFactory = new DaoFactory();
-		String path;
-		URL url=Main.class.getResource("resources/UserContext");
-		if(url==null) {
-			log.info("Resource \"UserContext\" not found.");
-			path=System.getProperty("user.dir")+"/main/resource/UserContext";
-		}else {
-			path = url.getPath();
-		}
-		File fileUserContext = new File(path);
-		if(!fileUserContext.exists()){
-			try {
-				fileUserContext.createNewFile();
-			} catch (IOException e) {
-//				log.severe(e.getMessage());
-			}
-		}
-		path=Main.class.getResource("resources/CommandHelp").getPath();
+		setDaoUserContext(daoFactory);
 
-		log.info("path ="+path);
-		File fileCommandHelp = new  File(path);
-		IDaoUserContext daoUserContext = new FileDaoUserContext(fileUserContext);
-		daoFactory.setDaoUserContext(daoUserContext);
+//		url=Main.class.getResource("resources/CommandHelp");
+//		File fileCommandHelp=null;
+//		if(url==null) {
+//			log.info("Resource \"CommandHelp\" not found.");
+//		}else {
+//			fileCommandHelp= new File(url.getPath());
+//		}
+
 
 		CommandBuilder commandBuilder = new CommandBuilder();
 		commandBuilder.setDaoFactory(daoFactory);
@@ -89,7 +74,9 @@ public class Main {
 				new Registration("registration"),
 				new SaveUser("saveuser"),
 				new Exit("quit"),
+				new MyInfo("myinfo"),
 		};
+
 		for (ICommand command : commands){
 			commandBuilder.addCommand(command);
 		}
@@ -109,11 +96,38 @@ public class Main {
 			System.err.println(e);
 		}
 		log = Logger.getLogger(Main.class.getName());
-		log.severe("test");
-		log.warning("test");
-		log.info("test");
-		log.fine("test");
-		log.finer("test");
-		log.finest("test");
+//		log.severe("test");
+//		log.warning("test");
+//		log.info("test");
+//		log.fine("test");
+//		log.finer("test");
+//		log.finest("test");
+	}
+
+	/**
+	 * Adds a concrete DaoUserContext in daoFactory.
+	 *
+	 * @param daoFactory DaoFactory for adding the concrete DaoUserContext.
+	 */
+	private static void setDaoUserContext(IDaoFactory daoFactory){
+		File fileUserContext=null;
+		IDaoUserContext daoUserContext=null;
+
+		URL url=Main.class.getResource("resources/UserContext");
+		if(url==null) {
+			log.info("Resource \"UserContext\" not found. The work of program may be incorrect.");
+		}else {
+			fileUserContext = new File(url.getPath());
+			if(fileUserContext==null){
+				log.severe("Creating a object UserContext failed.");
+			}else {
+				daoUserContext = new FileDaoUserContext(fileUserContext);
+				if(daoUserContext==null){
+					log.severe("Creating a object DAOUserContext failed.");
+				}else {
+					daoFactory.setDaoUserContext(daoUserContext);
+				}
+			}
+		}
 	}
 }

@@ -24,8 +24,13 @@ public class Logout extends AbstractCommandOnUser {
 
 	@Override
 	public ExecuteResult execute() throws IOException {
-		log.fine(context.toString());
-
+//		log.fine(context.toString());
+		if (attributes!=null && (attributes.contains("help") || attributes.contains("?"))) {
+			executeResult.setResult(ExecuteResult.GET_HELP);
+			executeResult.setMessage(getHelp());
+			log.finer("Calling getHelp.");
+			return executeResult;
+		}
 		if(context.isOnline()) {
 			context.setOnline(false);
 			if(!daoFactory.getDaoUserContext().update(context)){
@@ -43,13 +48,8 @@ public class Logout extends AbstractCommandOnUser {
 			log.fine(context.toString());
 		} else {
 			executeResult.setResult(ExecuteResult.WARNING, resourceBundle.getString("NO_AUTHORISATION"));
-			log.info("Trying logout failed, because you are not logged in.");
+			log.fine("Trying logout failed, because you are not logged in.");
 		}
 		return executeResult;
-	}
-
-	@Override
-	public String getHelp() {
-		return null;
 	}
 }

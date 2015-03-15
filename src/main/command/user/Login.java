@@ -34,7 +34,7 @@ public class Login extends AbstractCommandOnUser {
             if (attributes.contains("help") || attributes.contains("?")) {
                 executeResult.setResult(ExecuteResult.GET_HELP);
                 executeResult.setMessage(getHelp());
-	            log.fine("Calling getHelp.");
+	            log.finer("Calling getHelp.");
                 return executeResult;
             }
 
@@ -49,7 +49,7 @@ public class Login extends AbstractCommandOnUser {
                         context.setOnline(true);
                         daoFactory.getDaoUserContext().update(context);
                         context.notifyObserver();
-                        executeResult.setResult(ExecuteResult.SUCCESS, resourceBundle.getString("WELCOME")+" "+context.getName());
+                        executeResult.setResult(ExecuteResult.SUCCESS, String.format(resourceBundle.getString("WELCOME"),context.getName()));
                         log.fine("User "+context.getNickname()+" login.");
                         log.fine(context.toString());
                         return executeResult;
@@ -74,9 +74,9 @@ public class Login extends AbstractCommandOnUser {
         return executeResult;
     }
 
-    @Override
-    public String getHelp() {
-        return "[-login] [-password] | [-help|-?]";
-    }
+//    @Override
+//    public String getHelp() {
+//        return "[-login] [-password] | [-help|-?]";
+//    }
 
 }

@@ -21,6 +21,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="junit-4.12-beta-3" level="project" />
+    <orderEntry type="library" name="commons-csv-1.1" level="project" />
   </component>
 </module>
 

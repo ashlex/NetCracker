@@ -42,9 +42,4 @@ public class MyInfo extends AbstractCommandOnUser {
 		executeResult.setMessage(info);
 		return executeResult;
 	}
-
-	@Override
-	public String getHelp() {
-		return "{-p | -help | -?}";
-	}
 }

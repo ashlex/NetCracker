@@ -2,7 +2,9 @@ package main.command.user;
 
 import main.command.ExecuteResult;
 import main.command.ICommand;
+import main.dao.IDaoCommandHelp;
 import main.dao.IDaoFactory;
+import main.entity.CommandHelp;
 import main.entity.UserContext;
 
 import java.util.ArrayList;
@@ -63,5 +65,36 @@ public abstract class AbstractCommandOnUser implements ICommand {
 
 	public String getAlias() {
 		return this.alias;
+	}
+
+	public String getHelp(){
+		final String TEMPLATE="Trying get \"%1$s\" is failed. Object \"%1$s\" not set.";
+		IDaoCommandHelp daoCommandHelp=daoFactory.getDaoCommandHelp();
+		if(daoCommandHelp!=null){
+			CommandHelp commandHelp=daoCommandHelp.getHelp(this);
+			if(commandHelp!=null){
+				String help="";
+				if (!(help=commandHelp.getSyntax()).isEmpty()){
+					String shortHelp=commandHelp.getShortHelp();
+					if(!shortHelp.isEmpty()) {
+						return String.format(help + "%n   " + shortHelp +"%n   For get more information run the command help with key  commandname.");
+					}else{
+						return String.format(help +"%n   For get more information run the command help with key  commandname.");
+					}
+				}else if(!(help=commandHelp.getShortHelp()).isEmpty()){
+					return String.format(help +"%n   For get more information run the command help with key  commandname.");
+				}else if(!(help=commandHelp.getFullHelp()).isEmpty()){
+					return help;
+				}else{
+					log.fine(String.format("Help of command \"%1$s\" is empty.", this.getAlias()));
+				}
+			}else{
+				log.info(String.format(TEMPLATE,"CommandHelp"));
+				return String.format("Help for command %1$s not found.", this.getAlias());
+			}
+		}else{
+			log.info(String.format(TEMPLATE,"DAOCommandHelp"));
+		}
+		return null;
 	}
 }

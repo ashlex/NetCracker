@@ -70,9 +70,5 @@ public class Registration extends AbstractCommandOnUser {
         return executeResult;
     }
 
-    @Override
-    public String getHelp() {
-        return "[-nickName] [-password]";
-    }
 
 }

@@ -49,9 +49,5 @@ public class SaveUser extends AbstractCommandOnUser {
         return executeResult;
     }
 
-    @Override
-    public String getHelp() {
-        return "This function saves state user. It's executed without attributes.";
-    }
 
 }

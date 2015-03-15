@@ -2,11 +2,9 @@ package main;
 
 import main.command.*;
 import main.command.system.Exit;
+import main.command.system.Help;
 import main.command.user.*;
-import main.dao.DaoFactory;
-import main.dao.FileDaoUserContext;
-import main.dao.IDaoFactory;
-import main.dao.IDaoUserContext;
+import main.dao.*;
 import main.entity.CommandHistory;
 import main.entity.CommandHistoryElement;
 import main.entity.User;
@@ -14,6 +12,7 @@ import main.entity.UserContext;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Locale;
 import java.util.logging.LogManager;
@@ -22,15 +21,17 @@ import java.util.logging.Logger;
 public class Main {
 
 	private static Logger log;
+	private static boolean debug =false;
+
 	public static void main(String[] args) {
-		test();
+		if(args.length>0){
+			for (int i = 0; i < args.length; i++) {
+				if("-debug".equalsIgnoreCase(args[i])){
+					debug=true;
+				}
+			}
+		}
 		init();
-
-	}
-
-	private static void test() {
-
-
 	}
 
 	private static void init() {
@@ -44,16 +45,7 @@ public class Main {
 		CommandHistory<CommandHistoryElement> commandHistory = new CommandHistory<CommandHistoryElement>();
 		InvokerCommand invokerCommand = new InvokerCommand(commandHistory);
 		IDaoFactory daoFactory = new DaoFactory();
-		setDaoUserContext(daoFactory);
-
-//		url=Main.class.getResource("resources/CommandHelp");
-//		File fileCommandHelp=null;
-//		if(url==null) {
-//			log.info("Resource \"CommandHelp\" not found.");
-//		}else {
-//			fileCommandHelp= new File(url.getPath());
-//		}
-
+		setDao(daoFactory);
 
 		CommandBuilder commandBuilder = new CommandBuilder();
 		commandBuilder.setDaoFactory(daoFactory);
@@ -68,13 +60,13 @@ public class Main {
 
 	private static CommandBuilder createCommands(CommandBuilder commandBuilder) {
 		ICommand commands[] ={
-				new Test("test"),
 				new Login("login"),
 				new Logout("logout"),
 				new Registration("registration"),
 				new SaveUser("saveuser"),
 				new Exit("quit"),
 				new MyInfo("myinfo"),
+				new Help("help",commandBuilder)
 		};
 
 		for (ICommand command : commands){
@@ -89,19 +81,26 @@ public class Main {
 		return commandBuilder;
 	}
 	private static void configureLog(){
+		InputStream logConfigInputStream;
+		if(debug){
+			logConfigInputStream=Main.class.getResourceAsStream("resources/log_debug.properties");
+		}else {
+			logConfigInputStream=Main.class.getResourceAsStream("resources/log.properties");
+		}
 		try {
-			LogManager.getLogManager().readConfiguration(
-					Main.class.getResourceAsStream("resources/log.properties"));
+			LogManager.getLogManager().readConfiguration(logConfigInputStream);
 		} catch (IOException e) {
 			System.err.println(e);
 		}
 		log = Logger.getLogger(Main.class.getName());
-//		log.severe("test");
-//		log.warning("test");
-//		log.info("test");
-//		log.fine("test");
-//		log.finer("test");
-//		log.finest("test");
+//		for (int i = 0; i < 10000; i++) {
+//			log.severe("test");
+//			log.warning("test");
+//			log.info("test");
+//			log.fine("test");
+//			log.finer("test");
+//			log.finest("test");
+//		}
 	}
 
 	/**
@@ -109,23 +108,40 @@ public class Main {
 	 *
 	 * @param daoFactory DaoFactory for adding the concrete DaoUserContext.
 	 */
-	private static void setDaoUserContext(IDaoFactory daoFactory){
-		File fileUserContext=null;
+	private static void setDao(IDaoFactory daoFactory){
+		File file=null;
 		IDaoUserContext daoUserContext=null;
+		IDaoCommandHelp daoCommandHelp=null;
 
 		URL url=Main.class.getResource("resources/UserContext");
 		if(url==null) {
 			log.info("Resource \"UserContext\" not found. The work of program may be incorrect.");
 		}else {
-			fileUserContext = new File(url.getPath());
-			if(fileUserContext==null){
+			file = new File(url.getPath());
+			if(file==null){
 				log.severe("Creating a object UserContext failed.");
 			}else {
-				daoUserContext = new FileDaoUserContext(fileUserContext);
+				daoUserContext = new FileDaoUserContext(file);
 				if(daoUserContext==null){
 					log.severe("Creating a object DAOUserContext failed.");
 				}else {
 					daoFactory.setDaoUserContext(daoUserContext);
+				}
+			}
+		}
+		url=Main.class.getResource("resources/CommandHelp");
+		if(url==null) {
+			log.info("Resource \"CommandHelp.cvs\" not found. The work of program may be incorrect.");
+		}else {
+			file = new File(url.getPath());
+			if(file==null){
+				log.severe("Creating a object CommandHelp failed.");
+			}else {
+				daoCommandHelp = new FileDaoCommandHelp(file);
+				if(daoCommandHelp==null){
+					log.severe("Creating a object DAOCommandHelp failed.");
+				}else {
+					daoFactory.setDaoCommandHelp(daoCommandHelp);
 				}
 			}
 		}

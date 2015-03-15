@@ -53,15 +53,17 @@ public class ViewConsole implements IView {
 	public void handle(){
 		Scanner scn = new Scanner(inputStream);
 		ExecuteResult result;
+		String inputtedCommand;
 		while (true) {
 			print("\n"+joinStringArray(invite, " "));
-			command = commandBuilder.getCommand(scn.nextLine());
+			inputtedCommand=scn.nextLine();
+			command = commandBuilder.getCommand(inputtedCommand);
 			if(command!=null) {
 				result=invokerCommand.storeAndExecute(command, user.getContext());
 				command=null;
 				print(result.getMessage());
 			}else {
-				print(message.getString("COMMAND_NO_FOUND"));
+				print(String.format(message.getString("COMMAND_NO_FOUND"),inputtedCommand.split(" ")[0]));
 			}
 		}
 

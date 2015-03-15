@@ -8,8 +8,6 @@ import java.util.ArrayList;
 public class FileDaoUserContext implements IDaoUserContext {
 	private enum Cools {NICKNAME, PASSWORD, NAME, ROLE, ONLINE}
 	private File uFile;
-
-	//	private String path = FileDaoUser.class.getResource("UserContext").getPath();
 	public FileDaoUserContext(File userContextDF) throws IllegalArgumentException {
 		if (userContextDF == null) {
 			throw new IllegalArgumentException();

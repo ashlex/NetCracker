@@ -47,6 +47,9 @@ public class CommandBuilder {
                     ((AbstractCommandOnUser) command).setDaoFactory(daoFactory);
                 }
             }
+	        if(command instanceof Help){
+
+	        }
         }
         return command;
     }
@@ -73,6 +76,15 @@ public class CommandBuilder {
             addCommand(command.getAlias(), command);
         }
     }
+
+	public String[] getCommandsArray(){
+		String[] aliases=new String[commands.size()];
+		int i=0;
+		for(String key : commands.keySet()){
+			aliases[i++]=key;
+		}
+		return aliases;
+	}
 
     /**
      * Parses the entered string from the console.

@@ -1,6 +1,6 @@
 package main.dao;
 
-import main.entity.UserContext;
+import main.user.entity.UserContext;
 
 import java.io.*;
 import java.util.ArrayList;

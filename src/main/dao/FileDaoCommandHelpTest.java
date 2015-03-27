@@ -1,6 +1,6 @@
 package main.dao;
 
-import main.command.system.Exit;
+import main.system.command.Exit;
 import org.junit.Before;
 import org.junit.Test;
 

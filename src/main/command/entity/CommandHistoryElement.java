@@ -1,4 +1,4 @@
-package main.entity;
+package main.command.entity;
 
 import main.command.ICommand;
 import main.command.IPerformer;
@@ -7,6 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+/**
+ * This class doesn't work.
+ */
 public class CommandHistoryElement {
 	private IPerformer performer;
 	private ICommand command;

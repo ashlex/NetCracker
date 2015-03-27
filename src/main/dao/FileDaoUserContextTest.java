@@ -1,6 +1,6 @@
 package main.dao;
 
-import main.entity.UserContext;
+import main.user.entity.UserContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

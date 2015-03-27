@@ -1,4 +1,4 @@
-package main.entity;
+package main.user.entity;
 
 public class User{
 	private UserContext context;

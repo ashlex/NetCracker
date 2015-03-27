@@ -2,7 +2,7 @@ package main;
 
 import main.command.CommandBuilder;
 import main.command.InvokerCommand;
-import main.entity.User;
+import main.user.entity.User;
 
 public interface IView extends IObserver{
     void setUser(User user);

@@ -1,7 +1,10 @@
-package main.entity;
+package main.command.entity;
 
 import java.util.ArrayList;
 
+/**
+ * This class doesn't work.
+ */
 public class CommandHistory<HistoryElement> {
 	private HistoryElement[] elements;
 	private int count = 0;

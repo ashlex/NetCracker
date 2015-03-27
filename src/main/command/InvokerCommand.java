@@ -1,7 +1,7 @@
 package main.command;
 
-import main.command.user.AbstractCommandOnUser;
-import main.entity.CommandHistory;
+import main.user.command.AbstractCommandOnUser;
+import main.command.entity.CommandHistory;
 
 import java.io.IOException;
 import java.util.logging.Logger;

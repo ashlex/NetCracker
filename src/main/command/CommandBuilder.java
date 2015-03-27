@@ -1,8 +1,8 @@
 package main.command;
 
-import main.command.user.AbstractCommandOnUser;
+import main.user.command.AbstractCommandOnUser;
 import main.dao.IDaoFactory;
-import main.entity.UserContext;
+import main.user.entity.UserContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;

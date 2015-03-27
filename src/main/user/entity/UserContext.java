@@ -1,4 +1,4 @@
-package main.entity;
+package main.user.entity;
 
 import main.IObservable;
 import main.IObserver;

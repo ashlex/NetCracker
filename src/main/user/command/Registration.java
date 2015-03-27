@@ -1,7 +1,7 @@
-package main.command.user;
+package main.user.command;
 
 import main.command.ExecuteResult;
-import main.entity.UserContext;
+import main.user.entity.UserContext;
 
 import java.io.IOException;
 import java.util.ResourceBundle;

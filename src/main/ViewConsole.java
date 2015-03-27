@@ -4,7 +4,7 @@ import main.command.CommandBuilder;
 import main.command.ExecuteResult;
 import main.command.ICommand;
 import main.command.InvokerCommand;
-import main.entity.User;
+import main.user.entity.User;
 
 import java.io.IOException;
 import java.io.InputStream;

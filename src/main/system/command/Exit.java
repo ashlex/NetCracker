@@ -1,4 +1,4 @@
-package main.command.system;
+package main.system.command;
 
 import main.command.ExecuteResult;
 import main.command.ICommand;

@@ -1,10 +1,9 @@
-package main.command.system;
+package main.system.command;
 
 import main.command.CommandBuilder;
 import main.command.ExecuteResult;
-import main.command.user.AbstractCommandOnUser;
+import main.user.command.AbstractCommandOnUser;
 import main.dao.IDaoCommandHelp;
-import main.entity.CommandHelp;
 
 import java.io.IOException;
 import java.util.ArrayList;

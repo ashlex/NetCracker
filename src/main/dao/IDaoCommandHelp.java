@@ -1,7 +1,6 @@
 package main.dao;
 
 import main.command.ICommand;
-import main.entity.CommandHelp;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,10 @@
-package main.command.user;
+package main.user.command;
 
 import main.command.ExecuteResult;
 import main.command.ICommand;
 import main.dao.IDaoCommandHelp;
 import main.dao.IDaoFactory;
-import main.entity.CommandHelp;
-import main.entity.UserContext;
+import main.user.entity.UserContext;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;

@@ -1,14 +1,14 @@
 package main;
 
 import main.command.*;
-import main.command.system.Exit;
-import main.command.system.Help;
-import main.command.user.*;
+import main.system.command.Exit;
+import main.system.command.Help;
 import main.dao.*;
-import main.entity.CommandHistory;
-import main.entity.CommandHistoryElement;
-import main.entity.User;
-import main.entity.UserContext;
+import main.command.entity.CommandHistory;
+import main.command.entity.CommandHistoryElement;
+import main.user.entity.User;
+import main.user.entity.UserContext;
+import main.user.command.*;
 
 import java.io.File;
 import java.io.IOException;

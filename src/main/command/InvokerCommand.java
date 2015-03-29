@@ -1,5 +1,6 @@
 package main.command;
 
+import main.command.entity.ExecuteResult;
 import main.user.command.AbstractCommandOnUser;
 import main.command.entity.CommandHistory;
 

@@ -1,6 +1,7 @@
 package main.user.command;
 
-import main.command.ExecuteResult;
+import main.command.entity.ExecuteResult;
+import main.command.entity.Response;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -28,21 +29,21 @@ public class SaveUser extends AbstractCommandOnUser {
         if (attributes!=null) {
             if (attributes.contains("help") || attributes.contains("?")) {
                 executeResult.setResult(ExecuteResult.GET_HELP);
-                executeResult.setMessage(getHelp());
+                executeResult.setResponse(new Response(getHelp()));
                 return executeResult;
             }
         }
 
         if (!context.isOnline()) {
             executeResult.setResult(ExecuteResult.FAIL);
-            executeResult.setMessage(resourceBundle.getString("NO_AUTHORISATION"));
+            executeResult.setResponse(new Response(resourceBundle.getString("NO_AUTHORISATION")));
             log.info("Attempt to save is failed, because you don't logged in.");
         } else {
             if (daoFactory.getDaoUserContext().update(context)) {
-                executeResult.setResult(ExecuteResult.SUCCESS, resourceBundle.getString("CHANGES_SAVED"));
+                executeResult.setResult(ExecuteResult.SUCCESS, new Response(resourceBundle.getString("CHANGES_SAVED")));
                 log.info(resourceBundle.getString("CHANGES_SAVED"));
             } else {
-                executeResult.setResult(ExecuteResult.FAIL, resourceBundle.getString("ERROR_IN_SAVING"));
+                executeResult.setResult(ExecuteResult.FAIL, new Response(resourceBundle.getString("ERROR_IN_SAVING")));
                 log.severe("User " + context.getNickname() + ". " + resourceBundle.getString("ERROR_IN_SAVING"));
             }
         }

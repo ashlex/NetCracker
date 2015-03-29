@@ -1,6 +1,6 @@
 package main.system.command;
 
-import main.command.ExecuteResult;
+import main.command.entity.ExecuteResult;
 import main.command.ICommand;
 
 import java.io.IOException;

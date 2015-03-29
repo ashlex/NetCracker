@@ -1,9 +1,10 @@
 package main;
 
 import main.command.CommandBuilder;
-import main.command.ExecuteResult;
 import main.command.ICommand;
 import main.command.InvokerCommand;
+import main.command.entity.ExecuteResult;
+import main.command.entity.Response;
 import main.user.entity.User;
 
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class ViewConsole implements IView {
 			if(command!=null) {
 				result=invokerCommand.storeAndExecute(command, user.getContext());
 				command=null;
-				print(result.getMessage());
+				handlingResult(result);
 			}else {
 				print(String.format(message.getString("COMMAND_NO_FOUND"),inputtedCommand.split(" ")[0]));
 			}
@@ -78,9 +79,37 @@ public class ViewConsole implements IView {
 		}
 	}
 
+	private void handlingResult(ExecuteResult er){
+		Response response=er.getResponse();
+		Object[] array=response.getResponseArray();
+		int type=response.getType();
+		switch (type){
+			case Response.STRING:
+				print((String)array[0]);
+				break;
+			case Response.LIST:
+				for (Object str1:array){
+					println((String)str1);
+				}
+				break;
+			case Response.NUMBERED_LIST:
+				for (int i=0;i<array.length;i++){
+					println((i+1)+". "+array[i]);
+				}
+				break;
+			default:
+		}
+	}
 	private void print(String str) {
 		try {
 			outputStream.write(str.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	private void println(String str) {
+		try {
+			outputStream.write(String.format(str+"%n").getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

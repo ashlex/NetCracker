@@ -1,6 +1,7 @@
 package main.user.command;
 
-import main.command.ExecuteResult;
+import main.command.entity.ExecuteResult;
+import main.command.entity.Response;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -27,7 +28,7 @@ public class Logout extends AbstractCommandOnUser {
 //		log.fine(context.toString());
 		if (attributes!=null && (attributes.contains("help") || attributes.contains("?"))) {
 			executeResult.setResult(ExecuteResult.GET_HELP);
-			executeResult.setMessage(getHelp());
+			executeResult.setResponse(new Response(getHelp()));
 			log.finer("Calling getHelp.");
 			return executeResult;
 		}
@@ -35,7 +36,7 @@ public class Logout extends AbstractCommandOnUser {
 			context.setOnline(false);
 			if(!daoFactory.getDaoUserContext().update(context)){
 				executeResult.setResult(ExecuteResult.FAIL);
-				executeResult.setMessage(resourceBundle.getString("RECORDING_FAILED"));
+				executeResult.setResponse(new Response(resourceBundle.getString("RECORDING_FAILED")));
 				context.setOnline(true);
 				log.severe(context.getNickname() + " " + resourceBundle.getString("RECORDING_FAILED"));
 				return executeResult;
@@ -43,11 +44,11 @@ public class Logout extends AbstractCommandOnUser {
 			context.reset();
 			context.notifyObserver();
 			executeResult.setResult(ExecuteResult.SUCCESS);
-			executeResult.setMessage(resourceBundle.getString("GOOD_BY"));
+			executeResult.setResponse(new Response(resourceBundle.getString("GOOD_BY")));
 			log.fine("User logout.");
 			log.fine(context.toString());
 		} else {
-			executeResult.setResult(ExecuteResult.WARNING, resourceBundle.getString("NO_AUTHORISATION"));
+			executeResult.setResult(ExecuteResult.WARNING, new Response(resourceBundle.getString("NO_AUTHORISATION")));
 			log.fine("Trying logout failed, because you are not logged in.");
 		}
 		return executeResult;

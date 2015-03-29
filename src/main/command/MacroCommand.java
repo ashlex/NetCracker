@@ -1,5 +1,8 @@
 package main.command;
 
+import main.command.entity.ExecuteResult;
+import main.command.entity.Response;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,7 +11,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 public class MacroCommand implements ICommand {
-	private List<String> AliasCommands;
+	private List<String> aliasCommands;
 	private String alias;
 	private CommandBuilder commandBuilder;
 	Logger log = Logger.getLogger(this.getClass().getName());
@@ -16,46 +19,52 @@ public class MacroCommand implements ICommand {
 	private ResourceBundle message;
 
 	public MacroCommand(String alias, CommandBuilder commandBuilder) {
-		AliasCommands = new ArrayList<String>();
+		aliasCommands = new ArrayList<String>();
 		this.alias = alias;
 		this.commandBuilder = commandBuilder;
-		message=ResourceBundle.getBundle("main.resources.locale.message");
-		this.executeResult = new ExecuteResult(this, ExecuteResult.FAIL, "");
+		message = ResourceBundle.getBundle("main.resources.locale.message");
+		this.executeResult = new ExecuteResult(this, ExecuteResult.FAIL, null);
 	}
 
 	public MacroCommand(String alias, CommandBuilder commandBuilder, ResourceBundle message) {
-		AliasCommands = new ArrayList<String>();
+		aliasCommands = new ArrayList<String>();
 		this.alias = alias;
 		this.commandBuilder = commandBuilder;
-		this.executeResult = new ExecuteResult(this, ExecuteResult.FAIL, "");
-		this.message=message;
+		this.executeResult = new ExecuteResult(this, ExecuteResult.FAIL, null);
+		this.message = message;
 	}
 
 	public MacroCommand add(ICommand command) {
-		AliasCommands.add(command.getAlias());
+		aliasCommands.add(command.getAlias());
 		return this;
 	}
 
 	@Override
 	public ExecuteResult execute() throws IOException {
 		ICommand command = null;
-		String alias="";
-		for (Iterator<String> iterator = AliasCommands.iterator(); iterator.hasNext(); ) {
-			alias=iterator.next();
+		String alias = "";
+		for (Iterator<String> iterator = aliasCommands.iterator(); iterator.hasNext(); ) {
+			alias = iterator.next();
 			command = commandBuilder.getCommand(alias);
 			if (command != null) {
-				ExecuteResult result =command.execute();
+				ExecuteResult result = command.execute();
 				if (result.getResult() == ExecuteResult.FAIL) {
-					executeResult.setResult(ExecuteResult.FAIL, executeResult.getMessage() +
-							" " + result.getCommand().getAlias() + " " + result.getMessage());
-					log.severe(executeResult.getMessage());
+					executeResult.setResult(ExecuteResult.FAIL, new Response(executeResult.getResponse().toString() +
+							" " + result.getCommand().getAlias() + " " + result.getResponse().toString()));
+					log.severe(executeResult.getResponse().toString());
 					return executeResult;
 				} else if (result.getResult() == ExecuteResult.WARNING) {
-					executeResult.setResult(ExecuteResult.WARNING, executeResult.getMessage() +
-							" " + result.getCommand().getAlias() + " " + result.getMessage());
+					String str = "";
+					Response tmp = executeResult.getResponse();
+					if (tmp != null) {
+						str += tmp.toString();
+					}
+					str += " " + result.getCommand().getAlias();
+					str += " " + result.getResponse().toString();
+					executeResult.setResult(ExecuteResult.WARNING, new Response(str));
 				}
-			}else{
-				executeResult.setResult(ExecuteResult.FAIL, executeResult.getMessage()+ message.getString("COMMAND_NO_FOUND")+" -->"+iterator.next());
+			} else {
+				executeResult.setResult(ExecuteResult.FAIL, new Response(executeResult.getResponse().toString() + message.getString("COMMAND_NO_FOUND") + " -->" + iterator.next()));
 			}
 		}
 		return null;

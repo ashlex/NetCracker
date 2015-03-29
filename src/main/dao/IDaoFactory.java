@@ -5,4 +5,6 @@ public interface IDaoFactory {
     public IDaoUserContext getDaoUserContext();
 	public void setDaoCommandHelp(IDaoCommandHelp daoCommandHelp);
 	public IDaoCommandHelp getDaoCommandHelp();
+	public void setDaoTopics(IDaoTopics daoTopics);
+	public IDaoTopics getDaoTopics();
 }

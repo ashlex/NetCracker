@@ -1,9 +1,11 @@
 package main.system.command;
 
 import main.command.CommandBuilder;
-import main.command.ExecuteResult;
-import main.user.command.AbstractCommandOnUser;
+import main.command.entity.ExecuteResult;
+import main.command.entity.Response;
 import main.dao.IDaoCommandHelp;
+import main.system.entity.CommandHelp;
+import main.user.command.AbstractCommandOnUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,31 +29,31 @@ public class Help extends AbstractCommandOnUser {
 					CommandHelp commandHelp = daoCommandHelp.getHelp(attributes.get(0));
 					if (commandHelp != null) {
 						executeResult.setResult(ExecuteResult.SUCCESS);
-						executeResult.setMessage(commandHelp.getFullHelp());
+						executeResult.setResponse(new Response(commandHelp.getFullHelp()));
 					}
 				} else {
 					executeResult.setResult(ExecuteResult.FAIL);
-					executeResult.setMessage(resourceBundle.getString("ILLEGAL_ARGUMENT"));
+					executeResult.setResponse(new Response(resourceBundle.getString("ILLEGAL_ARGUMENT")));
 					log.fine("Count of attributes is more than one.");
 				}
 			}else{
 				ArrayList<CommandHelp> commandHelps = daoCommandHelp.getHelps(commandBuilder.getCommandsArray());
 				if (commandHelps != null) {
-					String message="";
+					ArrayList<String> response=new ArrayList<String>(commandHelps.size());
 					for (CommandHelp commandHelp : commandHelps) {
-						message+=String.format("%1$-18s%2$s%n",commandHelp.getCommand().toUpperCase() ,commandHelp.getShortHelp());
+						response.add(String.format("%1$-18s%2$s", commandHelp.getCommand().toUpperCase(), commandHelp.getShortHelp()));
 					}
 					executeResult.setResult(ExecuteResult.SUCCESS);
-					executeResult.setMessage(message);
+					executeResult.setResponse(new Response(response));
 				}else{
 					executeResult.setResult(ExecuteResult.FAIL);
-					executeResult.setMessage(resourceBundle.getString("ERROR_GETTING_LIST_TO_COMMANDS"));
+					executeResult.setResponse(new Response(resourceBundle.getString("ERROR_GETTING_LIST_TO_COMMANDS")));
 					log.info(String.format(TEMPLATE, "commandHelps"));
 				}
 			}
 		}else{
 			executeResult.setResult(ExecuteResult.FAIL);
-			executeResult.setMessage(resourceBundle.getString("ERROR_GETTING_LIST_TO_COMMANDS"));
+			executeResult.setResponse(new Response(resourceBundle.getString("ERROR_GETTING_LIST_TO_COMMANDS")));
 			log.info(String.format(TEMPLATE, "DAOCommandHelp"));
 		}
 		return executeResult;

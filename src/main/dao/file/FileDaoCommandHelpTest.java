@@ -1,5 +1,6 @@
-package main.dao;
+package main.dao.file;
 
+import main.dao.IDaoCommandHelp;
 import main.system.command.Exit;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,11 +1,15 @@
 package main;
 
 import main.command.*;
+import main.dao.file.FileDaoCommandHelp;
+import main.dao.file.FileDaoTopics;
+import main.dao.file.FileDaoUserContext;
 import main.system.command.Exit;
 import main.system.command.Help;
 import main.dao.*;
 import main.command.entity.CommandHistory;
 import main.command.entity.CommandHistoryElement;
+import main.system.command.ShowAllTopics;
 import main.user.entity.User;
 import main.user.entity.UserContext;
 import main.user.command.*;
@@ -21,13 +25,13 @@ import java.util.logging.Logger;
 public class Main {
 
 	private static Logger log;
-	private static boolean debug =false;
+	private static boolean debug = false;
 
 	public static void main(String[] args) {
-		if(args.length>0){
-			for (int i = 0; i < args.length; i++) {
-				if("-debug".equalsIgnoreCase(args[i])){
-					debug=true;
+		if (args.length > 0) {
+			for (String arg : args) {
+				if ("-debug".equalsIgnoreCase(arg)) {
+					debug = true;
 				}
 			}
 		}
@@ -36,10 +40,14 @@ public class Main {
 
 	private static void init() {
 		configureLog();
-
+		try {
+			Class.forName("org.hsqldb.jdbcDriver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		UserContext context = new UserContext();
 		User user = new User(context);
-		Locale l=new Locale("en","US");
+		Locale l = new Locale("en", "US");
 		IView view = new ViewConsole(System.out, System.in); // This create new view.
 		context.addObserver(view); // Here we add observer for context.
 		CommandHistory<CommandHistoryElement> commandHistory = new CommandHistory<CommandHistoryElement>();
@@ -59,17 +67,18 @@ public class Main {
 	}
 
 	private static CommandBuilder createCommands(CommandBuilder commandBuilder) {
-		ICommand commands[] ={
+		ICommand commands[] = {
 				new Login("login"),
 				new Logout("logout"),
 				new Registration("registration"),
 				new SaveUser("saveuser"),
 				new Exit("quit"),
 				new MyInfo("myinfo"),
-				new Help("help",commandBuilder)
+				new Help("help", commandBuilder),
+				new ShowAllTopics("topic")
 		};
 
-		for (ICommand command : commands){
+		for (ICommand command : commands) {
 			commandBuilder.addCommand(command);
 		}
 
@@ -80,12 +89,13 @@ public class Main {
 
 		return commandBuilder;
 	}
-	private static void configureLog(){
+
+	private static void configureLog() {
 		InputStream logConfigInputStream;
-		if(debug){
-			logConfigInputStream=Main.class.getResourceAsStream("resources/log_debug.properties");
-		}else {
-			logConfigInputStream=Main.class.getResourceAsStream("resources/log.properties");
+		if (debug) {
+			logConfigInputStream = Main.class.getResourceAsStream("resources/log_debug.properties");
+		} else {
+			logConfigInputStream = Main.class.getResourceAsStream("resources/log.properties");
 		}
 		try {
 			LogManager.getLogManager().readConfiguration(logConfigInputStream);
@@ -108,40 +118,49 @@ public class Main {
 	 *
 	 * @param daoFactory DaoFactory for adding the concrete DaoUserContext.
 	 */
-	private static void setDao(IDaoFactory daoFactory){
-		File file=null;
-		IDaoUserContext daoUserContext=null;
-		IDaoCommandHelp daoCommandHelp=null;
+	private static void setDao(IDaoFactory daoFactory) {
+		File file = null;
+		IDaoUserContext daoUserContext = null;
+		IDaoCommandHelp daoCommandHelp = null;
+		IDaoTopics daoTopics = null;
+		String[] resources = {
+				"UserContext",
+				"CommandHelp",
+				"Topics",
+		};
+		URL url =null;
+		for (String resName : resources) {
+			url=Main.class.getResource("resources/data/"+resName);
+			if (url == null) {
+				log.info("Resource \"" + resName + "\" not found. The work of program may be incorrect.");
+			} else {
+				file = new File(url.getPath());
+				if (file == null) {
+					log.severe("Creating a object " + resName + " failed.");
+				} else {
+					if ("UserContext".equals(resName)) {
+						daoUserContext = new FileDaoUserContext(file);
+						if (daoUserContext == null) {
+							log.severe("Creating a object DAO" + resName + " failed.");
+						} else {
+							daoFactory.setDaoUserContext(daoUserContext);
+						}
+					}else if("CommandHelp".equals(resName)){
 
-		URL url=Main.class.getResource("resources/UserContext");
-		if(url==null) {
-			log.info("Resource \"UserContext\" not found. The work of program may be incorrect.");
-		}else {
-			file = new File(url.getPath());
-			if(file==null){
-				log.severe("Creating a object UserContext failed.");
-			}else {
-				daoUserContext = new FileDaoUserContext(file);
-				if(daoUserContext==null){
-					log.severe("Creating a object DAOUserContext failed.");
-				}else {
-					daoFactory.setDaoUserContext(daoUserContext);
-				}
-			}
-		}
-		url=Main.class.getResource("resources/CommandHelp");
-		if(url==null) {
-			log.info("Resource \"CommandHelp.cvs\" not found. The work of program may be incorrect.");
-		}else {
-			file = new File(url.getPath());
-			if(file==null){
-				log.severe("Creating a object CommandHelp failed.");
-			}else {
-				daoCommandHelp = new FileDaoCommandHelp(file);
-				if(daoCommandHelp==null){
-					log.severe("Creating a object DAOCommandHelp failed.");
-				}else {
-					daoFactory.setDaoCommandHelp(daoCommandHelp);
+						daoCommandHelp = new FileDaoCommandHelp(file);
+						if (daoCommandHelp == null) {
+							log.severe("Creating a object DAO" + resName + " failed.");
+						} else {
+							daoFactory.setDaoCommandHelp(daoCommandHelp);
+						}
+					}else if("Topics".equals(resName)){
+						daoTopics = new FileDaoTopics(file);
+						if (daoTopics == null) {
+							log.severe("Creating a object DAO" + resName + " failed.");
+						} else {
+							daoFactory.setDaoTopics(daoTopics);
+						}
+					}
 				}
 			}
 		}

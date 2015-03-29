@@ -1,8 +1,9 @@
-package main.dao;
+package main.dao.file;
 
 import main.user.entity.UserContext;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -43,20 +44,21 @@ public class FileDaoUserContextTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testGetUser() throws Exception {
 	}
-
+	@Ignore
 	@Test
 	public void testRemove() throws Exception {
 
 	}
-
+	@Ignore
 	@Test
 	public void testUpdate() throws Exception {
 
 	}
-
+	@Ignore
 	@Test
 	public void testGetCountUsers() throws Exception {
 

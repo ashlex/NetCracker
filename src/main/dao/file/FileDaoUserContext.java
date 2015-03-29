@@ -1,5 +1,6 @@
-package main.dao;
+package main.dao.file;
 
+import main.dao.IDaoUserContext;
 import main.user.entity.UserContext;
 
 import java.io.*;

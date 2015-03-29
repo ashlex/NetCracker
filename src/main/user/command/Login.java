@@ -1,6 +1,7 @@
 package main.user.command;
 
-import main.command.ExecuteResult;
+import main.command.entity.ExecuteResult;
+import main.command.entity.Response;
 import main.user.entity.UserContext;
 
 import java.io.IOException;
@@ -27,13 +28,13 @@ public class Login extends AbstractCommandOnUser {
     public ExecuteResult execute() throws IOException {
         if (context.isOnline()) {
             executeResult.setResult(ExecuteResult.FAIL);
-            executeResult.setMessage("You cannot login, because already authorized to.");
+            executeResult.setResponse(new Response("You cannot login, because already authorized to."));
             return executeResult;
         }
         if (attributes != null) {
             if (attributes.contains("help") || attributes.contains("?")) {
                 executeResult.setResult(ExecuteResult.GET_HELP);
-                executeResult.setMessage(getHelp());
+                executeResult.setResponse(new Response(getHelp()));
 	            log.finer("Calling getHelp.");
                 return executeResult;
             }
@@ -49,26 +50,26 @@ public class Login extends AbstractCommandOnUser {
                         context.setOnline(true);
                         daoFactory.getDaoUserContext().update(context);
                         context.notifyObserver();
-                        executeResult.setResult(ExecuteResult.SUCCESS, String.format(resourceBundle.getString("WELCOME"),context.getName()));
+                        executeResult.setResult(ExecuteResult.SUCCESS, new Response(String.format(resourceBundle.getString("WELCOME"),context.getName())));
                         log.fine("User "+context.getNickname()+" login.");
                         log.fine(context.toString());
                         return executeResult;
                     }
                 }else{
                     executeResult.setResult(ExecuteResult.FAIL);
-                    executeResult.setMessage(resourceBundle.getString("NICKNAME_NOT_FOUND"));
+                    executeResult.setResponse(new Response(resourceBundle.getString("NICKNAME_NOT_FOUND")));
 	                log.fine("User with this nickname is not found.");
                     return executeResult;
                 }
             }else{
                 executeResult.setResult(ExecuteResult.FAIL);
-                executeResult.setMessage(resourceBundle.getString("ILLEGAL_ARGUMENT"));
+                executeResult.setResponse(new Response(resourceBundle.getString("ILLEGAL_ARGUMENT")));
 	            log.fine("Count of attributes is less than two.");
             }
 
         } else {
             executeResult.setResult(ExecuteResult.FAIL);
-            executeResult.setMessage(resourceBundle.getString("ILLEGAL_ARGUMENT"));
+            executeResult.setResponse(new Response(resourceBundle.getString("ILLEGAL_ARGUMENT")));
 	        log.info("Collection of attributes is null.");
         }
         return executeResult;

@@ -1,6 +1,7 @@
 package main.user.command;
 
-import main.command.ExecuteResult;
+import main.command.entity.ExecuteResult;
+import main.command.entity.Response;
 import main.user.entity.UserContext;
 
 import java.io.IOException;
@@ -17,13 +18,13 @@ public class Registration extends AbstractCommandOnUser {
     public Registration(String alias) {
         super(alias);
         this.resourceBundle = ResourceBundle.getBundle("main.resources.locale.message");
-        executeResult = new ExecuteResult(this, ExecuteResult.FAIL, "no exec");
+        executeResult = new ExecuteResult(this, ExecuteResult.FAIL, null);
     }
 
     public Registration(String alias, ResourceBundle resourceBundle) {
         super(alias);
         this.resourceBundle = resourceBundle;
-        executeResult = new ExecuteResult(this, ExecuteResult.FAIL, "no exec");
+        executeResult = new ExecuteResult(this, ExecuteResult.FAIL, null);
     }
 
     public Registration(String alias, ResourceBundle resourceBundle, ExecuteResult executeResult) {
@@ -36,12 +37,12 @@ public class Registration extends AbstractCommandOnUser {
     public ExecuteResult execute() throws IOException {
         if(context.getRole()!=0){
             executeResult.setResult(ExecuteResult.FAIL);
-            executeResult.setMessage("You are already registered.");
+            executeResult.setResponse(new Response("You are already registered."));
         }
         if (attributes != null) {
             if (attributes.contains("help") || attributes.contains("?")) {
                 executeResult.setResult(ExecuteResult.GET_HELP);
-                executeResult.setMessage(getHelp());
+                executeResult.setResponse(new Response(getHelp()));
             } else {
                 if(attributes.size()==2) {
                     UserContext userContext = new UserContext();
@@ -51,21 +52,21 @@ public class Registration extends AbstractCommandOnUser {
                     userContext.setRole(2);
                     if(daoFactory.getDaoUserContext().getUser(userContext.getNickname())!=null){
                         executeResult.setResult(ExecuteResult.FAIL);
-                        executeResult.setMessage("This nickname exists already.");
+                        executeResult.setResponse(new Response("This nickname exists already."));
                     }else {
                         if (daoFactory.getDaoUserContext().add(userContext)) {
                             executeResult.setResult(ExecuteResult.SUCCESS);
-                            executeResult.setMessage("User with nickname " + userContext.getNickname() + " added to users list.");
+                            executeResult.setResponse(new Response("User with nickname " + userContext.getNickname() + " added to users list."));
                         } else {
                             executeResult.setResult(ExecuteResult.FAIL);
-                            executeResult.setMessage("RECORDING_FAILED");
+                            executeResult.setResponse(new Response("RECORDING_FAILED"));
                         }
                     }
                 }
             }
         }else {
             executeResult.setResult(ExecuteResult.FAIL);
-            executeResult.setMessage(resourceBundle.getString("ILLEGAL_ARGUMENT"));
+            executeResult.setResponse(new Response(resourceBundle.getString("ILLEGAL_ARGUMENT")));
         }
         return executeResult;
     }

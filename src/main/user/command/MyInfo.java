@@ -1,8 +1,10 @@
 package main.user.command;
 
-import main.command.ExecuteResult;
+import main.command.entity.ExecuteResult;
+import main.command.entity.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -26,20 +28,20 @@ public class MyInfo extends AbstractCommandOnUser {
 	public ExecuteResult execute() throws IOException {
 		if (attributes != null && (attributes.contains("help") || attributes.contains("?"))) {
 				executeResult.setResult(ExecuteResult.GET_HELP);
-				executeResult.setMessage(getHelp());
+				executeResult.setResponse(new Response(getHelp()));
 				log.fine("Calling getHelp.");
 				return executeResult;
 			}
 		executeResult.setResult(ExecuteResult.SUCCESS);
-		String info="";
-		info+="NickName: "+context.getNickname()+"\n\r";
-		info+="Name: "+context.getName()+"\n\r";
-		info+="Role: "+context.getRole()+"\n\r";
-		info+="Locale: "+context.getLocale()+"\n\r";
+		ArrayList<String> info=new ArrayList<String>(5);
+		info.add("NickName: "+context.getNickname()+"\n\r");
+		info.add("Name: "+context.getName()+"\n\r");
+		info.add("Role: "+context.getRole()+"\n\r");
+		info.add("Locale: "+context.getLocale()+"\n\r");
 		if(attributes!=null && attributes.contains("p")) {
-			info += "Password: " + context.getPassword()+"\n\r";
+			info.add("Password: " + context.getPassword()+"\n\r");
 		}
-		executeResult.setMessage(info);
+		executeResult.setResponse(new Response(info));
 		return executeResult;
 	}
 }

@@ -1,16 +1,19 @@
 package main.user.command;
 
-import main.command.ExecuteResult;
+import main.command.IContainsAttributes;
+import main.command.IUseDAO;
+import main.command.entity.ExecuteResult;
 import main.command.ICommand;
 import main.dao.IDaoCommandHelp;
 import main.dao.IDaoFactory;
+import main.system.entity.CommandHelp;
 import main.user.entity.UserContext;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-public abstract class AbstractCommandOnUser implements ICommand {
+public abstract class AbstractCommandOnUser implements ICommand,IUseDAO,IContainsAttributes {
 	protected Logger log=Logger.getLogger(this.getClass().getName());
 	protected UserContext context;
 	protected ArrayList<String> attributes;
@@ -24,13 +27,13 @@ public abstract class AbstractCommandOnUser implements ICommand {
 	public AbstractCommandOnUser(String alias) {
 		this.alias=alias;
 		this.resourceBundle = ResourceBundle.getBundle("main.resources.locale.message");
-		executeResult = new ExecuteResult(this, ExecuteResult.FAIL, "no exec");
+		executeResult = new ExecuteResult(this, ExecuteResult.FAIL, null);
 	}
 
 	public AbstractCommandOnUser(String alias, ResourceBundle resourceBundle) {
 		this.alias=alias;
 		this.resourceBundle = resourceBundle;
-		executeResult = new ExecuteResult(this, ExecuteResult.FAIL, "no exec");
+		executeResult = new ExecuteResult(this, ExecuteResult.FAIL, null);
 	}
 
 	public AbstractCommandOnUser(String alias, ResourceBundle resourceBundle, ExecuteResult executeResult) {
@@ -45,11 +48,14 @@ public abstract class AbstractCommandOnUser implements ICommand {
 		}
 	}
 
+	@Override
 	public void setAttributes(ArrayList<String> attributes) {
 		if (attributes != null) {
 			this.attributes = attributes;
 		}
 	}
+
+	@Override
 	public void setDaoFactory(IDaoFactory daoFactory) {
 		if(daoFactory!=null) {
 			this.daoFactory = daoFactory;
@@ -76,12 +82,12 @@ public abstract class AbstractCommandOnUser implements ICommand {
 				if (!(help=commandHelp.getSyntax()).isEmpty()){
 					String shortHelp=commandHelp.getShortHelp();
 					if(!shortHelp.isEmpty()) {
-						return String.format(help + "%n   " + shortHelp +"%n   For get more information run the command help with key  commandname.");
+						return String.format(help + "%n   " + shortHelp +"%n   "+String.format(resourceBundle.getString("FOR_GET_MORE_INFORMATION"), getAlias()));
 					}else{
-						return String.format(help +"%n   For get more information run the command help with key  commandname.");
+						return String.format(help +"%n   "+String.format(resourceBundle.getString("FOR_GET_MORE_INFORMATION"), getAlias()));
 					}
 				}else if(!(help=commandHelp.getShortHelp()).isEmpty()){
-					return String.format(help +"%n   For get more information run the command help with key  commandname.");
+					return String.format(help +"%n   "+String.format(resourceBundle.getString("FOR_GET_MORE_INFORMATION"), getAlias()));
 				}else if(!(help=commandHelp.getFullHelp()).isEmpty()){
 					return help;
 				}else{
@@ -89,7 +95,7 @@ public abstract class AbstractCommandOnUser implements ICommand {
 				}
 			}else{
 				log.info(String.format(TEMPLATE,"CommandHelp"));
-				return String.format("Help for command %1$s not found.", this.getAlias());
+				return String.format(resourceBundle.getString("HELP_NOT_FOUND"), this.getAlias());
 			}
 		}else{
 			log.info(String.format(TEMPLATE,"DAOCommandHelp"));

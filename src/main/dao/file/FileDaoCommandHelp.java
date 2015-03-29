@@ -1,6 +1,8 @@
-package main.dao;
+package main.dao.file;
 
 import main.command.ICommand;
+import main.dao.IDaoCommandHelp;
+import main.system.entity.CommandHelp;
 
 import java.io.*;
 import java.util.ArrayList;

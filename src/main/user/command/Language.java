@@ -1,6 +1,6 @@
 package main.user.command;
 
-import main.command.ExecuteResult;
+import main.command.entity.ExecuteResult;
 
 import java.io.IOException;
 import java.util.Locale;

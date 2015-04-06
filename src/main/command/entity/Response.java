@@ -1,7 +1,7 @@
 package main.command.entity;
 
 
-import main.dao.entity.Row;
+import main.dao.file.entity.Row;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;

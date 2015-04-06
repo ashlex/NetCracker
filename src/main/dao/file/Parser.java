@@ -1,6 +1,6 @@
 package main.dao.file;
 
-import main.dao.entity.Row;
+import main.dao.file.entity.Row;
 
 import java.io.*;
 import java.util.ArrayList;

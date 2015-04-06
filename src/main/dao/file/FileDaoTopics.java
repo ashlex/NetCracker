@@ -1,7 +1,7 @@
 package main.dao.file;
 
 import main.dao.IDaoTopics;
-import main.dao.entity.Row;
+import main.dao.file.entity.Row;
 import main.system.entity.Topic;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package main.dao.entity;
+package main.dao.file.entity;
 
 /**
  * Description data row

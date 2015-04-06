@@ -1,6 +1,6 @@
 package main.command.entity;
 
-import main.dao.entity.Row;
+import main.dao.file.entity.Row;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,12 +1,13 @@
 package main.user.command;
 
+import main.command.AbstractCommandBase;
 import main.command.entity.ExecuteResult;
 import main.command.entity.Response;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-public class Logout extends AbstractCommandOnUser {
+public class Logout extends AbstractCommandBase {
 
 	public Logout(){
 		super("logout");
@@ -26,7 +27,7 @@ public class Logout extends AbstractCommandOnUser {
 	@Override
 	public ExecuteResult execute() throws IOException {
 //		log.fine(context.toString());
-		if (attributes!=null && (attributes.contains("help") || attributes.contains("?"))) {
+		if (attributes!=null && (attributes.getAllAttribute().containsKey("help") || attributes.getAllAttribute().containsKey("?"))) {
 			executeResult.setResult(ExecuteResult.GET_HELP);
 			executeResult.setResponse(new Response(getHelp()));
 			log.finer("Calling getHelp.");

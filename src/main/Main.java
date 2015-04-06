@@ -13,6 +13,8 @@ import main.system.command.ShowAllTopics;
 import main.user.entity.User;
 import main.user.entity.UserContext;
 import main.user.command.*;
+import main.view.IView;
+import main.view.ViewConsole;
 
 import java.io.File;
 import java.io.IOException;

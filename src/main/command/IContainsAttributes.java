@@ -1,7 +1,7 @@
 package main.command;
 
-import java.util.ArrayList;
+import main.command.entity.Attributes;
 
 public interface IContainsAttributes {
-	public void setAttributes(ArrayList<String> attributes);
+	public void setAttributes(Attributes attributes);
 }

@@ -1,10 +1,11 @@
-package main;
+package main.view;
 
+import main.IObserver;
 import main.command.CommandBuilder;
 import main.command.InvokerCommand;
 import main.user.entity.User;
 
-public interface IView extends IObserver{
+public interface IView extends IObserver {
     void setUser(User user);
     public void setInvokerCommand(InvokerCommand invokerCommand);
     public void setCommandBuilder(CommandBuilder commandBuilder);

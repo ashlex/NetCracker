@@ -1,7 +1,6 @@
 package main.command;
 
 import main.command.entity.ExecuteResult;
-import main.user.command.AbstractCommandOnUser;
 import main.command.entity.CommandHistory;
 
 import java.io.IOException;
@@ -23,8 +22,8 @@ public class InvokerCommand {
 			if(result.getResult()==ExecuteResult.FAIL ){
 				log.fine("Execute command "+command.getAlias()+" is failed.");
 			}
-			if(command instanceof AbstractCommandOnUser){
-				((AbstractCommandOnUser)command).reset(); // Watch it here!!! There may be beginning of the problem!!!
+			if(command instanceof AbstractCommandBase){
+				((AbstractCommandBase)command).reset(); // Watch it here!!! There may be beginning of the problem!!!
 			}
 			return result;
 		} catch (IOException e) {

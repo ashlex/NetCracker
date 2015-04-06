@@ -1,14 +1,16 @@
 package main.user.command;
 
+import main.command.AbstractCommandBase;
+import main.command.entity.Attributes;
 import main.command.entity.ExecuteResult;
 import main.command.entity.Response;
 import main.user.entity.UserContext;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-public class Registration extends AbstractCommandOnUser {
-    private ExecuteResult executeResult;
+public class Registration extends AbstractCommandBase {
     private ResourceBundle resourceBundle;
 
     public Registration() {
@@ -35,19 +37,19 @@ public class Registration extends AbstractCommandOnUser {
 
     @Override
     public ExecuteResult execute() throws IOException {
+	    Map<String,Attributes.Attribute> allAttribute=this.attributes.getAllAttribute();
         if(context.getRole()!=0){
             executeResult.setResult(ExecuteResult.FAIL);
             executeResult.setResponse(new Response("You are already registered."));
         }
-        if (attributes != null) {
-            if (attributes.contains("help") || attributes.contains("?")) {
-                executeResult.setResult(ExecuteResult.GET_HELP);
-                executeResult.setResponse(new Response(getHelp()));
+        if (allAttribute != null) {
+            if (isHelp()) {
+                return executeResult;
             } else {
-                if(attributes.size()==2) {
+                if(allAttribute.size()==2) {
                     UserContext userContext = new UserContext();
-                    userContext.setNickname(attributes.get(0));
-                    userContext.setPassword(attributes.get(1));
+                    userContext.setNickname(allAttribute.get("u").getValues()[0]);
+                    userContext.setPassword(allAttribute.get("p").getValues()[0]);
                     userContext.setOnline(false);
                     userContext.setRole(2);
                     if(daoFactory.getDaoUserContext().getUser(userContext.getNickname())!=null){

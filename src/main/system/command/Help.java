@@ -1,16 +1,18 @@
 package main.system.command;
 
 import main.command.CommandBuilder;
+import main.command.entity.Attributes;
 import main.command.entity.ExecuteResult;
 import main.command.entity.Response;
 import main.dao.IDaoCommandHelp;
 import main.system.entity.CommandHelp;
-import main.user.command.AbstractCommandOnUser;
+import main.command.AbstractCommandBase;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
-public class Help extends AbstractCommandOnUser {
+public class Help extends AbstractCommandBase {
 	private CommandBuilder commandBuilder;
 
 	public Help(String alias, CommandBuilder commandBuilder) {
@@ -21,12 +23,16 @@ public class Help extends AbstractCommandOnUser {
 
 	@Override
 	public ExecuteResult execute() throws IOException {
+		Map<String,Attributes.Attribute> allAttribute=this.attributes.getAllAttribute();
 		final String TEMPLATE = "Trying get \"%1$s\" is failed. Object \"%1$s\" not set.";
 		IDaoCommandHelp daoCommandHelp = daoFactory.getDaoCommandHelp();
 		if (daoCommandHelp != null) {
-			if (attributes != null){
-				if(attributes.size() == 1) {
-					CommandHelp commandHelp = daoCommandHelp.getHelp(attributes.get(0));
+			if (allAttribute != null){
+				if(allAttribute.size() == 1) {
+					CommandHelp commandHelp =null;
+					for(Map.Entry<String, Attributes.Attribute> entry:allAttribute.entrySet()){
+						commandHelp=daoCommandHelp.getHelp(entry.getKey());
+					}
 					if (commandHelp != null) {
 						executeResult.setResult(ExecuteResult.SUCCESS);
 						executeResult.setResponse(new Response(commandHelp.getFullHelp()));

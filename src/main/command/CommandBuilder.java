@@ -1,17 +1,17 @@
 package main.command;
 
+import main.command.entity.Attributes;
 import main.dao.IDaoFactory;
-import main.user.command.AbstractCommandOnUser;
 import main.user.entity.UserContext;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class CommandBuilder {
 	private Map<String, ICommand> commands = new HashMap<String, ICommand>();
-	private ArrayList<String> attributes;
+//	private ArrayList<String> attributes;
+	private Attributes attributes;
 	private String commandName;
 	private UserContext context;
 	private IDaoFactory daoFactory;
@@ -36,15 +36,15 @@ public class CommandBuilder {
 		parseLine(commandLine);
 		ICommand command = commands.get(commandName);
 		if (command != null) {
-			if (command instanceof AbstractCommandOnUser) {
+			if (command instanceof AbstractCommandBase) {
 				if (attributes != null) {
-					((AbstractCommandOnUser) command).setAttributes(attributes);
+					((AbstractCommandBase) command).setAttributes(attributes);
 				}
 				if (context != null) {
-					((AbstractCommandOnUser) command).setContext(context);
+					((AbstractCommandBase) command).setContext(context);
 				}
 				if (daoFactory != null) {
-					((AbstractCommandOnUser) command).setDaoFactory(daoFactory);
+					((AbstractCommandBase) command).setDaoFactory(daoFactory);
 				}
 			} else {
 				if (attributes != null) {
@@ -103,6 +103,8 @@ public class CommandBuilder {
 	private void parseLine(String line) {
 		String tmp[] = line.split("\\s+");
 		commandName = tmp[0].toLowerCase();
+		attributes=new Attributes(line);
+		/*
 		if (tmp.length > 1) {
 			attributes = new ArrayList<String>(tmp.length - 1);
 			for (int i = 1; i < tmp.length; i++) {
@@ -113,6 +115,7 @@ public class CommandBuilder {
 		} else {
 			attributes = null;
 		}
+		*/
 	}
 
 }

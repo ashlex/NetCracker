@@ -1,4 +1,4 @@
-package main;
+package main.view;
 
 import main.command.CommandBuilder;
 import main.command.ICommand;
@@ -89,12 +89,12 @@ public class ViewConsole implements IView {
 				break;
 			case Response.LIST:
 				for (Object str1:array){
-					println((String)str1);
+					println((String) str1);
 				}
 				break;
 			case Response.NUMBERED_LIST:
 				for (int i=0;i<array.length;i++){
-					println((i+1)+". "+array[i]);
+					println((i + 1) + ". " + array[i]);
 				}
 				break;
 			default:

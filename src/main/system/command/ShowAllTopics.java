@@ -1,101 +1,71 @@
 package main.system.command;
 
-import main.command.ICommand;
-import main.command.IContainsAttributes;
-import main.command.IUseDAO;
+import main.command.AbstractCommandBase;
+import main.command.entity.Attributes;
 import main.command.entity.ExecuteResult;
 import main.command.entity.Response;
-import main.dao.IDaoCommandHelp;
-import main.dao.IDaoFactory;
 import main.dao.IDaoTopics;
-import main.system.entity.CommandHelp;
 import main.system.entity.Topic;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
+import java.util.Map;
 
-public class ShowAllTopics implements ICommand,IUseDAO,IContainsAttributes{
-	private static final Logger log=Logger.getLogger(ShowAllTopics.class.getName());
-	private IDaoFactory daoFactory;
-	private ArrayList<String> attributes;
-	private String alias;
-	private ResourceBundle resourceBundle;
+public class ShowAllTopics extends AbstractCommandBase{
 
 	public ShowAllTopics(String alias){
-		this.resourceBundle = ResourceBundle.getBundle("main.resources.locale.message");
-		if(alias==null){
-			log.severe("Attempt to pass null. Alias can't be null. Value of alias set as default.");
-			this.alias="showAllTopics";
-		}
-		this.alias=alias;
-
+		super(alias);
 	}
+
 	@Override
 	public ExecuteResult execute() throws IOException {
+		Map<String,Attributes.Attribute> attributeMap=attributes.getAllAttribute();
 		IDaoTopics iDaoTopics=daoFactory.getDaoTopics();
-		ArrayList<Topic> topics=iDaoTopics.getAllTopics();
-		ArrayList<String> headers=new ArrayList<String>(topics.size());
-		for (Topic t:topics){
-			headers.add(t.getId()+" "+t.getHeader());
+		if (isHelp()) {
+			return new ExecuteResult(this,ExecuteResult.GET_HELP,new Response(getHelp()));
 		}
-		ExecuteResult executeResult=new ExecuteResult(this,ExecuteResult.SUCCESS,new Response(headers));
+		if(attributeMap.containsKey("all")){
+			ArrayList<Topic> topics=iDaoTopics.getAllTopics();
+			ArrayList<String> headers=new ArrayList<String>(topics.size());
+			for (Topic t:topics){
+				headers.add(t.getId()+" "+t.getHeader());
+			}
+			return new ExecuteResult(this,ExecuteResult.SUCCESS,new Response(headers));
+		}else if(attributeMap.containsKey("t")){
+			Attributes.Attribute t=attributeMap.get("t");
+			if(t.getValues().length>0) {
+				if (attributeMap.containsKey("new")) {
+					StringBuilder stringBuilder=new StringBuilder();
+					String[] strings=t.getValues();
+					for(int i=0;i<strings.length;i++) {
+						stringBuilder.append(t.getValues()[i]);
+					}
+					String header=stringBuilder.toString();
+					String description="";
+
+					if(attributeMap.containsKey("d")){
+						Attributes.Attribute d=attributeMap.get("d");
+						stringBuilder=new StringBuilder();
+						strings=d.getValues();
+						for(int i=0;i<strings.length;i++) {
+							stringBuilder.append(d.getValues()[i]);
+						}
+						description=stringBuilder.toString();
+					}
+					int id = iDaoTopics.getRowCount()+1;
+					if(iDaoTopics.add(new Topic(id,header,description))) {
+						Response response=new Response(String.format(resourceBundle.getString("ADDED_NEW_TOPIC"), header));
+						return new ExecuteResult(this, ExecuteResult.SUCCESS, response);
+					}else {
+						Response response=new Response(resourceBundle.getString("ADDED_NEW_TOPIC_FAILED"));
+						return new ExecuteResult(this, ExecuteResult.FAIL, response);
+					}
+				} else {
+					return new ExecuteResult(this, ExecuteResult.SUCCESS,new Response("There will added info of concrete topic."));
+				}
+			}
+		}
 		return executeResult;
 	}
 
-	@Override
-	public String getAlias() {
-		return alias;
-	}
-
-	@Override
-	public String getHelp() {
-		final String TEMPLATE="Trying get \"%1$s\" is failed. Object \"%1$s\" not set.";
-		IDaoCommandHelp daoCommandHelp=daoFactory.getDaoCommandHelp();
-		if(daoCommandHelp!=null){
-			CommandHelp commandHelp=daoCommandHelp.getHelp(this);
-			if(commandHelp!=null){
-				String help="";
-				if (!(help=commandHelp.getSyntax()).isEmpty()){
-					String shortHelp=commandHelp.getShortHelp();
-					if(!shortHelp.isEmpty()) {
-						return String.format(help + "%n   " + shortHelp +"%n   "+String.format(resourceBundle.getString("FOR_GET_MORE_INFORMATION"), getAlias()));
-					}else{
-						return String.format(help +"%n   "+String.format(resourceBundle.getString("FOR_GET_MORE_INFORMATION"), getAlias()));
-					}
-				}else if(!(help=commandHelp.getShortHelp()).isEmpty()){
-					return String.format(help +"%n   "+String.format(resourceBundle.getString("FOR_GET_MORE_INFORMATION"), getAlias()));
-				}else if(!(help=commandHelp.getFullHelp()).isEmpty()){
-					return help;
-				}else{
-					log.fine(String.format("Help of command \"%1$s\" is empty.", getAlias()));
-				}
-			}else{
-				log.info(String.format(TEMPLATE,"CommandHelp"));
-				return String.format(resourceBundle.getString("HELP_NOT_FOUND"), getAlias());
-			}
-		}else{
-			log.info(String.format(TEMPLATE,"DAOCommandHelp"));
-		}
-		return null;
-	}
-
-	@Override
-	public void setDaoFactory(IDaoFactory daoFactory) {
-		if(daoFactory!=null) {
-			this.daoFactory = daoFactory;
-		}else{
-			log.info("Attempt to pass null. DaoFactory can't be null.");
-		}
-	}
-
-	@Override
-	public void setAttributes(ArrayList<String> attributes) {
-		if (attributes != null) {
-			this.attributes = attributes;
-		}else{
-			log.info("Attempt to pass null. Attributes can't be null.");
-		}
-	}
 }

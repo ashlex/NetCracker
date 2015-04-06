@@ -30,4 +30,14 @@ public class Row<T>{
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder s=new StringBuilder();
+		for (int i=0;i<o.length;i++) {
+			s.append(((T)o[i]).toString());
+			s.append(";");
+		}
+		return s.toString();
+	}
 }

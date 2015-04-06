@@ -1,49 +1,72 @@
 package main.dao.file;
 
 import main.dao.entity.Row;
-import main.system.Container;
-import main.system.IIterator;
 
 import java.io.*;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Parser implements Container {
-	private Scanner is;
-	private Row<String> header=null;
+public class Parser {
+	private File file;
+	private static final Logger log = Logger.getLogger(Parser.class.getName());
+	private Row<String> header = null;
 
-	public Parser(File file , boolean header) throws FileNotFoundException {
+	private boolean isHeader = false;
 
-		is=new Scanner(file);
-		if(header){
-			if(is.hasNextLine()) {
-				this.header = new Row<String>(is.nextLine().split(";"));
-			}
-		}
+	/**
+	 *
+	 * @param file file for parse.
+	 * @param header {@code true} if this file content header or {@code false} if not content.
+	 */
+	public Parser(File file, boolean header) {
+		this.file = file;
+		isHeader = header;
 	}
+
 	public Parser(File file) throws FileNotFoundException {
-		this(file,false);
+		this(file, false);
 	}
 
-	public Row<String> getHeader(){
+	public Row<String> getHeader() {
 		return header;
 	}
 
-	@Override
-	public IIterator getIterator() {
-		return new ParserIterator();
-	}
+	public ArrayList<Row> getRows() {
+		ArrayList<Row> rows = new ArrayList<Row>();
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+			String str;
+			if (isHeader) {
+				if ((str=bufferedReader.readLine())!=null){
+					header=new Row<String>(str.split(";"));
+				}
+			}
+			while ((str=bufferedReader.readLine())!=null){
+				rows.add(new Row<String>(str.split(";")));
+			}
+			bufferedReader.close();
 
-	private class ParserIterator implements IIterator{
-
-		@Override
-		public boolean hasNext() {
-			return is.hasNextLine();
+		} catch (FileNotFoundException e) {
+			log.log(Level.SEVERE, "", e);
+		} catch (IOException e) {
+			log.log(Level.SEVERE, "", e);
 		}
-
-		@Override
-		public Object next() {
-
-			return new Row<String>(is.nextLine().split(";"));
+		return rows;
+	}
+	public boolean write(ArrayList<Row> list){
+		try {
+			FileWriter fileWriter=new FileWriter(file,false);
+			PrintWriter printWriter=new PrintWriter(fileWriter);
+			for(Row<String> row:list){
+				printWriter.println(row.toString());
+			}
+			printWriter.flush();
+			printWriter.close();
+			return true;
+		} catch (IOException e) {
+			log.log(Level.SEVERE,"",e);
+			return false;
 		}
 	}
 }

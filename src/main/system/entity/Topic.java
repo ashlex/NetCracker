@@ -39,7 +39,7 @@ public class Topic {
 
 	@Override
 	public String toString() {
-		return "["+id+";"+header+";"+description+"]";
+		return "["+id+";"+header+";"+description+"] ";
 	}
 
 	@Override

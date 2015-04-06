@@ -1,5 +1,6 @@
 package main.user.command;
 
+import main.command.AbstractCommandBase;
 import main.command.entity.ExecuteResult;
 import main.command.entity.Response;
 
@@ -10,7 +11,7 @@ import java.util.ResourceBundle;
 /**
  * This command working only for console.
  */
-public class MyInfo extends AbstractCommandOnUser {
+public class MyInfo extends AbstractCommandBase {
 
 	public MyInfo(String alias) {
 		super(alias);
@@ -26,20 +27,17 @@ public class MyInfo extends AbstractCommandOnUser {
 
 	@Override
 	public ExecuteResult execute() throws IOException {
-		if (attributes != null && (attributes.contains("help") || attributes.contains("?"))) {
-				executeResult.setResult(ExecuteResult.GET_HELP);
-				executeResult.setResponse(new Response(getHelp()));
-				log.fine("Calling getHelp.");
-				return executeResult;
-			}
+		if (this.isHelp()) {
+			return executeResult;
+		}
 		executeResult.setResult(ExecuteResult.SUCCESS);
-		ArrayList<String> info=new ArrayList<String>(5);
-		info.add("NickName: "+context.getNickname()+"\n\r");
-		info.add("Name: "+context.getName()+"\n\r");
-		info.add("Role: "+context.getRole()+"\n\r");
-		info.add("Locale: "+context.getLocale()+"\n\r");
-		if(attributes!=null && attributes.contains("p")) {
-			info.add("Password: " + context.getPassword()+"\n\r");
+		ArrayList<String> info = new ArrayList<String>(5);
+		info.add("NickName: " + context.getNickname());
+		info.add("Name: " + context.getName());
+		info.add("Role: " + context.getRole());
+		info.add("Locale: " + context.getLocale());
+		if (attributes.getAllAttribute() != null && attributes.getAllAttribute().containsKey("p")) {
+			info.add("Password: " + context.getPassword());
 		}
 		executeResult.setResponse(new Response(info));
 		return executeResult;

@@ -31,6 +31,7 @@ public class FileDaoTopicsTest extends Assert {
 		}
 
 	}
+
 	@Test
 	public void testGetAllTopics() throws Exception {
 		ArrayList<Topic> arrayList=fileDaoTopics.getAllTopics();
@@ -66,5 +67,12 @@ public class FileDaoTopicsTest extends Assert {
 		assertTrue(fileDaoTopics.remove(1));
 		assertEquals(fileDaoTopics.getRowCount(),2);
 		assertNull(fileDaoTopics.getTopic(1));
+	}
+
+	@Test
+	public void testGetTopic() throws Exception{
+		Topic t=new Topic(3,"Topic"+3,"this is test Topic"+3);
+		assertEquals(fileDaoTopics.getRowCount(),3);
+		assertEquals(fileDaoTopics.getTopic(t.getId()),t);
 	}
 }

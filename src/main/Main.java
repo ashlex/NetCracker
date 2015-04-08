@@ -9,7 +9,7 @@ import main.system.command.Help;
 import main.dao.*;
 import main.command.entity.CommandHistory;
 import main.command.entity.CommandHistoryElement;
-import main.system.command.ShowAllTopics;
+import main.system.command.Topics;
 import main.user.entity.User;
 import main.user.entity.UserContext;
 import main.user.command.*;
@@ -77,7 +77,7 @@ public class Main {
 				new Exit("quit"),
 				new MyInfo("myinfo"),
 				new Help("help", commandBuilder),
-				new ShowAllTopics("topic")
+				new Topics("topic")
 		};
 
 		for (ICommand command : commands) {

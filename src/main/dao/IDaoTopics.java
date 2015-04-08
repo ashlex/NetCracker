@@ -12,13 +12,25 @@ public interface IDaoTopics {
 	 */
 	public boolean add(Topic topic);
 	public boolean remove(Topic topic);
-	public boolean remove(int id);
 
 	/**
 	 * @param id {@code int}This is topic's id for removal.
+	 * @return true if removed and false if not.
+	 */
+	public boolean remove(int id);
+
+	/**
+	 * @param id {@code int}This is topic's id for search.
 	 * @return if found then returns {@code Topic}, or null if not found.
 	 */
 	public Topic getTopic(int id);
+
+	/**
+	 * @param header {@code String}This is topic's header for search.
+	 * @return if found then returns {@code Topic}, or null if not found.
+	 */
+	public Topic getTopic(String header);
+
 	public ArrayList<Topic> getAllTopics();
 
 	/**

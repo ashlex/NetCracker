@@ -1,40 +1,57 @@
 package main.dao.file;
 
 import main.dao.IDaoUserContext;
+import main.dao.file.entity.Row;
 import main.user.entity.UserContext;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileDaoUserContext implements IDaoUserContext {
-	private enum Cools {NICKNAME, PASSWORD, NAME, ROLE, ONLINE}
-	private File uFile;
+	private Parser parser;
+	private int rowCount = -1;
+	private int operationAfterSynchronisation = 0;
+	private final int MAX_OPERATION_BEFORE_SYNCHRONISATION = 1000;
+	private static final Logger log = Logger.getLogger(FileDaoCommandHelp.class.getName());
+
+	public FileDaoUserContext(File userContextDF, boolean header) throws IllegalArgumentException {
+		if (userContextDF == null) {
+			throw new IllegalArgumentException("Object userContextDF is null.");
+		}
+		parser = new Parser(userContextDF, header);
+		rowCount=getRowCount();
+	}
+
 	public FileDaoUserContext(File userContextDF) throws IllegalArgumentException {
 		if (userContextDF == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Object userContextDF is null.");
 		}
-		uFile = userContextDF;
+		parser = new Parser(userContextDF, true);
 	}
 
 	@Override
 	public boolean add(UserContext u) {
-		if(u==null){
-			throw new IllegalArgumentException("UserContext can not be null!");
-		}
-		if(getUser(u.getNickname())!=null){
-			return false;
-		}
-		try {
-			FileWriter fileWriter = new FileWriter(uFile, true);
-			String userContext = userContextToString(u) + "\n";
-			fileWriter.write(userContext);
-			fileWriter.flush();
-			fileWriter.close();
-			return true;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (u != null) {
+			if (getUser(u.getNickname()) != null) {
+				return false;
+			}
+			//ID;NICKNAME;PASSWORD;NAME;ROLE;ONLINE;
+			String[] user = {String.valueOf(getRowCount() + 1), u.getNickname(), u.getPassword(), u.getName(), String.valueOf(u.getRole()), "0"};
+			Row<String> row = new Row<String>(user);
+			ArrayList<Row> arrayList = parser.getRows();
+			if (arrayList.add(row)) {
+				if (parser.write(arrayList)) {
+					rowCount++;
+					synchronisationRowCount();
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
 		}
 		return false;
 	}
@@ -42,110 +59,119 @@ public class FileDaoUserContext implements IDaoUserContext {
 	@Override
 	public UserContext getUser(String nickName) {
 		UserContext userContext;
-		try {
-			BufferedReader bufferedReader=new BufferedReader(new FileReader(uFile));
-			String line;
-			String row[];
-			while ((line=bufferedReader.readLine())!=null){
-				row=line.split(";");
-				if(row[Cools.NICKNAME.ordinal()].equals(nickName)){
-					userContext=new UserContext();
-					userContext.setNickname(row[Cools.NICKNAME.ordinal()]);
-					userContext.setName(row[Cools.NAME.ordinal()]);
-					userContext.setRole(Integer.parseInt(row[Cools.ROLE.ordinal()]));
-					userContext.setPassword(row[Cools.PASSWORD.ordinal()]);
-					userContext.setOnline(row[Cools.ONLINE.ordinal()].equals("1"));
-					bufferedReader.close();
-					return userContext;
+		ArrayList<Row> rows = parser.getRows();
+		for (Row<String> row : rows) {
+			//ID;NICKNAME;PASSWORD;NAME;ROLE;ONLINE;
+			if (row.getRow()[1].equals(nickName)) {
+				userContext = new UserContext();
+				userContext.setNickname(row.getRow()[1]);
+				userContext.setName(row.getRow()[3]);
+				try {
+					userContext.setRole(Integer.parseInt(row.getRow()[4]));
+				} catch (NumberFormatException e) {
+					log.log(Level.SEVERE, "", e);
+					return null;
 				}
+				userContext.setPassword(row.getRow()[2]);
+				userContext.setOnline(row.getRow()[5].equals("1") ? true : false);
+				return userContext;
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
 
 	@Override
 	public boolean remove(String nickName) {
-		ArrayList<UserContext> userArrayList=getAllUser();
-		UserContext userContext=null;
-		boolean result=false;
-		for (UserContext u:userArrayList){
-			if(u.getNickname().equals(nickName)){
-				userContext=u;
-				break;
-			}
-		}
-		if(userContext!=null) {
-			if(userArrayList.remove(userContext)) {
-				try {
-					FileOutputStream fileOutputStream = new FileOutputStream(uFile);
-					for (UserContext u : userArrayList) {
-						fileOutputStream.write((userContextToString(u) + "\n").getBytes());
+		ArrayList<Row> arrayList = parser.getRows();
+		for (Row<String> row : arrayList) {
+			if (nickName.equals(row.getRow()[1])) {
+				if (arrayList.remove(row)) {
+					if (parser.write(arrayList)) {
+						rowCount--;
+						synchronisationRowCount();
+						return true;
 					}
-					fileOutputStream.flush();
-					fileOutputStream.close();
-					result=true;
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
 			}
-		}
-		return result;
-	}
-
-	@Override
-	public boolean update(UserContext userContext) {
-		if(remove(userContext.getNickname())) {
-			return add(userContext);
 		}
 		return false;
 	}
 
 	@Override
-	public int getCountUsers() {
-		return getAllUser().size();
+	public boolean update(UserContext userContext) {
+		ArrayList<Row> rows = parser.getRows();
+		boolean res=false;
+		for (Row<String> row : rows) {
+			//ID;NICKNAME;PASSWORD;NAME;ROLE;ONLINE;
+			if (row.getRow()[1].equals(userContext.getNickname())) {
+				row.getRow()[1]=userContext.getNickname();
+				row.getRow()[3]=userContext.getName();
+				row.getRow()[4]=String.valueOf(userContext.getRole());
+				row.getRow()[2]=userContext.getPassword();
+				row.getRow()[5]=userContext.isOnline()?"1":"0";
+				res=true;
+				break;
+			}
+		}
+		if(res){
+			if(parser.write(rows)){
+				return true;
+			}
+		}
+		return false;
 	}
+
 
 	private ArrayList<UserContext> getAllUser() {
 		UserContext userContext;
 		ArrayList<UserContext> userContextsArrayList = new ArrayList<UserContext>();
-		try {
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(uFile)));
-			String line;
-			String row[];
-			while ((line = bufferedReader.readLine()) != null) {
-				row=line.split(";");
-				userContext=new UserContext();
-				userContext.setNickname(row[Cools.NICKNAME.ordinal()]);
-				userContext.setName(row[Cools.NAME.ordinal()]);
-				userContext.setRole(Integer.parseInt(row[Cools.ROLE.ordinal()]));
-				userContext.setPassword(row[Cools.PASSWORD.ordinal()]);
-				userContext.setOnline(row[Cools.ONLINE.ordinal()].equals("1"));
-				userContextsArrayList.add(userContext);
+		ArrayList<Row> rows = parser.getRows();
+		for (Row<String> row : rows) {
+			//ID;NICKNAME;PASSWORD;NAME;ROLE;ONLINE;
+			userContext = new UserContext();
+			userContext.setNickname(row.getRow()[1]);
+			userContext.setName(row.getRow()[3]);
+			try {
+				userContext.setRole(Integer.parseInt(row.getRow()[4]));
+			} catch (NumberFormatException e) {
+				log.log(Level.SEVERE, "", e);
+				continue;
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			userContext.setPassword(row.getRow()[2]);
+			userContext.setOnline(row.getRow()[5].equals("1") ? true : false);
+			userContextsArrayList.add(userContext);
 		}
 		return userContextsArrayList;
 	}
-	private String userContextToString(UserContext userContext){
-		String []str=new String[Cools.values().length];
-		str[Cools.NICKNAME.ordinal()]=userContext.getNickname();
-		str[Cools.PASSWORD.ordinal()]=userContext.getPassword();
-		str[Cools.NAME.ordinal()]=userContext.getName();
-		str[Cools.ROLE.ordinal()]=userContext.getRole()+"";
-		str[Cools.ONLINE.ordinal()]=userContext.isOnline()?"1":"0";
-		String user="";
-		for (String s : str) {
-			user+=s+";";
+//	private String[] userContextToString(UserContext userContext){
+//		ArrayList<String> strings=new ArrayList<String>();
+//		strings.add(userContext.getNickname());
+//		strings.add(userContext.getPassword());
+//		strings.add(userContext.getName());
+//		strings.add(userContext.getRole()+"");
+//		strings.add(userContext.isOnline()?"1":"0");
+//		return (String[]) strings.toArray();
+//	}
+
+
+	@Override
+	public int getRowCount() {
+		if (rowCount >= 0) {
+			return rowCount;
+		} else {
+			rowCount = parser.getRows().size();
+			operationAfterSynchronisation = 0;
+			return rowCount;
 		}
-		return user;
+	}
+
+	private boolean synchronisationRowCount() {
+		if (operationAfterSynchronisation < MAX_OPERATION_BEFORE_SYNCHRONISATION) {
+			return false;
+		} else {
+			rowCount = parser.getRows().size();
+			operationAfterSynchronisation = 0;
+			return true;
+		}
 	}
 }

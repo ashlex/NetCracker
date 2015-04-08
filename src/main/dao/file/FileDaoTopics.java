@@ -6,6 +6,7 @@ import main.system.entity.Topic;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileDaoTopics implements IDaoTopics {
@@ -17,29 +18,31 @@ public class FileDaoTopics implements IDaoTopics {
 
 	public FileDaoTopics(File topicsDF, boolean header) {
 		if (topicsDF == null) {
-			throw new IllegalArgumentException("Object commandHelpDF is null.");
+			throw new IllegalArgumentException("Object topicsDF is null.");
 		}
 		parser = new Parser(topicsDF, header);
+		rowCount=getRowCount();
 	}
 
 	public FileDaoTopics(File topicsDF) {
-		if (topicsDF == null) {
-			throw new IllegalArgumentException("Object commandHelpDF is null.");
-		}
 		parser = new Parser(topicsDF, true);
 	}
 
 	@Override
 	public boolean add(Topic topic) {
-		String[] topicString = {String.valueOf(topic.getId()), topic.getHeader(), topic.getDescription()};
-		Row<String> row = new Row<String>(topicString);
-		ArrayList<Row> arrayList = parser.getRows();
-		if(arrayList.add(row)) {
-			if(parser.write(arrayList)) {
-				rowCount++;
-				synchronisationRowCount();
-				return true;
-			}else{
+		if(topic!=null) {
+			String[] topicString = {String.valueOf(topic.getId()), topic.getHeader(), topic.getDescription()};
+			Row<String> row = new Row<String>(topicString);
+			ArrayList<Row> arrayList = parser.getRows();
+			if (arrayList.add(row)) {
+				if (parser.write(arrayList)) {
+					rowCount++;
+					synchronisationRowCount();
+					return true;
+				} else {
+					return false;
+				}
+			} else {
 				return false;
 			}
 		}else{
@@ -49,19 +52,24 @@ public class FileDaoTopics implements IDaoTopics {
 
 	@Override
 	public boolean remove(Topic topic) {
+		if (topic == null) {
+			return false;
+		}
 		return remove(topic.getId());
 	}
 
 	@Override
 	public boolean remove(int id) {
-		ArrayList<Row> arrayList=parser.getRows();
-		for (Row<String> row : arrayList) {
-			if(Integer.valueOf(row.getRow()[0])==id){
-				if(arrayList.remove(row)){
-					if(parser.write(arrayList)) {
-						rowCount--;
-						synchronisationRowCount();
-						return true;
+		if (id > 0) {
+			ArrayList<Row> arrayList = parser.getRows();
+			for (Row<String> row : arrayList) {
+				if (Integer.valueOf(row.getRow()[0]) == id) {
+					if (arrayList.remove(row)) {
+						if (parser.write(arrayList)) {
+							rowCount--;
+							synchronisationRowCount();
+							return true;
+						}
 					}
 				}
 			}
@@ -71,9 +79,20 @@ public class FileDaoTopics implements IDaoTopics {
 
 	@Override
 	public Topic getTopic(int id) {
-		ArrayList<Row> arrayList=parser.getRows();
+		ArrayList<Row> arrayList = parser.getRows();
 		for (Row<String> row : arrayList) {
-			if(Integer.valueOf(row.getRow()[0])==id){
+			if (Integer.valueOf(row.getRow()[0]) == id) {
+				return new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2]);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Topic getTopic(String header) {
+		ArrayList<Row> arrayList = parser.getRows();
+		for (Row<String> row : arrayList) {
+			if (header.equalsIgnoreCase(row.getRow()[1])) {
 				return new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2]);
 			}
 		}
@@ -84,7 +103,11 @@ public class FileDaoTopics implements IDaoTopics {
 	public ArrayList<Topic> getAllTopics() {
 		ArrayList<Topic> topics = new ArrayList<Topic>();
 		for (Row<String> row : parser.getRows()) {
-			topics.add(new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2]));
+			try {
+				topics.add(new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2]));
+			} catch (ArrayIndexOutOfBoundsException e) {
+				log.log(Level.SEVERE, row.toString(), e);
+			}
 		}
 		rowCount = topics.size();
 		operationAfterSynchronisation = 0;

@@ -13,5 +13,5 @@ public interface IDaoUserContext {
     public UserContext getUser(String login);
     public boolean remove(String login);
     public boolean update(UserContext u);
-    public int getCountUsers();
+    public int getRowCount();
 }

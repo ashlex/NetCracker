@@ -6,7 +6,7 @@ import main.command.entity.CommandHistory;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class InvokerCommand {
+public class InvokerCommand implements IInvoker {
 	private CommandHistory commandHistory;
 	Logger log=Logger.getLogger(InvokerCommand.class.getName());
 
@@ -15,7 +15,7 @@ public class InvokerCommand {
 		this.commandHistory=commandHistory;
 	}
 
-	public ExecuteResult storeAndExecute(ICommand command, IPerformer performer){
+	public ExecuteResult storeAndExecute(ICommand command){
 		ExecuteResult result=null;
 		try {
 			result=command.execute();

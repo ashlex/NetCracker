@@ -15,7 +15,12 @@ public class CommandBuilder {
 	private String commandName;
 	private UserContext context;
 	private IDaoFactory daoFactory;
+	private IInvoker invoker;
 	Logger log = Logger.getLogger(this.getClass().getName());
+
+	public CommandBuilder(){
+		invoker=null;
+	}
 
 	public void setReceiver(UserContext receiver) {
 		log.finer(receiver.toString());
@@ -57,7 +62,12 @@ public class CommandBuilder {
 						((IUseDAO)command).setDaoFactory(daoFactory);
 					}
 				}
-
+			}
+			if(command instanceof IManagementCommand){
+				if(invoker!=null){
+					((IManagementCommand) command).setInvoker(invoker);
+				}
+				((IManagementCommand) command).setCommandBuilder(this);
 			}
 		}
 		return command;
@@ -118,4 +128,7 @@ public class CommandBuilder {
 		*/
 	}
 
+	public void setInvoker(IInvoker invoker) {
+		this.invoker = invoker;
+	}
 }

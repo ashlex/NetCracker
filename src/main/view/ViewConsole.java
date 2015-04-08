@@ -60,7 +60,7 @@ public class ViewConsole implements IView {
 			inputtedCommand=scn.nextLine();
 			command = commandBuilder.getCommand(inputtedCommand);
 			if(command!=null) {
-				result=invokerCommand.storeAndExecute(command, user.getContext());
+				result=invokerCommand.storeAndExecute(command);
 				command=null;
 				handlingResult(result);
 			}else {
@@ -72,32 +72,38 @@ public class ViewConsole implements IView {
 
 	@Override
 	public void handleEvent() {
-		if (user.getContext().getRole() == 0) {
+		if (user.getRole() == 0) {
 			invite[0] = "anonymous";
 		} else {
 			invite[0] = user.toString();
 		}
 	}
 
+	/**
+	 * This displays on the console the results of running.
+	 * @param er {@link main.command.entity.ExecuteResult} results of running.
+	 */
 	private void handlingResult(ExecuteResult er){
 		Response response=er.getResponse();
-		Object[] array=response.getResponseArray();
-		int type=response.getType();
-		switch (type){
-			case Response.STRING:
-				print((String)array[0]);
-				break;
-			case Response.LIST:
-				for (Object str1:array){
-					println((String) str1);
-				}
-				break;
-			case Response.NUMBERED_LIST:
-				for (int i=0;i<array.length;i++){
-					println((i + 1) + ". " + array[i]);
-				}
-				break;
-			default:
+		if(response!=null) {
+			Object[] array = response.getResponseArray();
+			int type = response.getType();
+			switch (type) {
+				case Response.STRING:
+					print((String) array[0]);
+					break;
+				case Response.LIST:
+					for (Object str1 : array) {
+						println((String) str1);
+					}
+					break;
+				case Response.NUMBERED_LIST:
+					for (int i = 0; i < array.length; i++) {
+						println((i + 1) + ". " + array[i]);
+					}
+					break;
+				default:
+			}
 		}
 	}
 	private void print(String str) {

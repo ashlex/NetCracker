@@ -3,6 +3,7 @@ package main.user.entity;
 import main.IObservable;
 import main.IObserver;
 import main.command.IPerformer;
+import main.system.entity.Topic;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -17,6 +18,7 @@ public class UserContext implements IObservable, IPerformer {
 	private int role;
 	private boolean online;
 	private Locale locale;
+	private Topic currentTopic;
 	private Logger log=Logger.getLogger(this.getClass().getName());
 
 
@@ -26,6 +28,7 @@ public class UserContext implements IObservable, IPerformer {
 		this.name = null;
 		this.role = 0;
 		this.online = false;
+		this.currentTopic = null;
 		this.locale = Locale.getDefault();
 	}
 
@@ -144,5 +147,13 @@ public class UserContext implements IObservable, IPerformer {
 				", online=" + online +
 				", locale=" + locale +
 				'}';
+	}
+
+	public Topic getCurrentTopic() {
+		return currentTopic;
+	}
+
+	public void setCurrentTopic(Topic currentTopic) {
+		this.currentTopic = currentTopic;
 	}
 }

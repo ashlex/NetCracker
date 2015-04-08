@@ -44,11 +44,14 @@ public class FileDaoTopicsTest extends Assert {
 	@Test
 	public void testAdd() throws Exception{
 		assertEquals(fileDaoTopics.getRowCount(),3);
+		long time=System.currentTimeMillis();
 		int k=1000;
 		for(int i=0;i<k;i++){
 			assertTrue(fileDaoTopics.add(new Topic((4+i),"Topic"+(4+i),"this is test Topic"+(4+i))));
 		}
-		assertEquals(fileDaoTopics.getRowCount(),k+3);
+		time= System.currentTimeMillis()-time;
+		System.out.println(time);
+		assertEquals(fileDaoTopics.getRowCount(), k + 3);
 		assertTrue(fileDaoTopics.add(new Topic((k+4),"Topic"+(k+4),"this is test Topic"+(k+4))));
 		assertEquals(fileDaoTopics.getTopic(k),new Topic(k,"Topic"+k,"this is test Topic"+k));
 		assertEquals(fileDaoTopics.getRowCount(),fileDaoTopics.getAllTopics().size());
@@ -74,5 +77,21 @@ public class FileDaoTopicsTest extends Assert {
 		Topic t=new Topic(3,"Topic"+3,"this is test Topic"+3);
 		assertEquals(fileDaoTopics.getRowCount(),3);
 		assertEquals(fileDaoTopics.getTopic(t.getId()),t);
+	}
+	@Test
+	public void testGetTopicByHeader() throws Exception{
+		Topic t=new Topic(3,"Topic"+3,"this is test Topic"+3);
+		assertEquals(fileDaoTopics.getRowCount(),3);
+		assertEquals(fileDaoTopics.getTopic(t.getHeader()),t);
+		int k=10;
+		Topic []tp=new Topic[10];
+		for(int i=0;i<k;i++){
+			tp[i]=new Topic((4+i),"Topic"+(4+i),"this is test Topic"+(4+i));
+			assertTrue(fileDaoTopics.add(tp[i]));
+		}
+		for(int i=0;i<k;i++){
+			assertEquals(fileDaoTopics.getTopic(tp[i].getHeader()),tp[i]);
+		}
+
 	}
 }

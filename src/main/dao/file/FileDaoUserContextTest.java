@@ -17,7 +17,7 @@ public class FileDaoUserContextTest {
 	public void beforeTest(){
 		try {
 			f=File.createTempFile("tmp",".txt");
-			fileDaoUserContext=new FileDaoUserContext(f);
+			fileDaoUserContext=new FileDaoUserContext(f,false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -30,17 +30,15 @@ public class FileDaoUserContextTest {
 		context1.setNickname("test1");
 		UserContext context2=new UserContext();
 		context2.setNickname("test0");
-		try{
-			fileDaoUserContext.add(null);
-			Assert.fail();
-		}catch (IllegalArgumentException ie){}
+		Assert.assertFalse(fileDaoUserContext.add(null));
+
 		Assert.assertTrue(fileDaoUserContext.add(context));
 		Assert.assertTrue(fileDaoUserContext.add(context1));
 		Assert.assertFalse(fileDaoUserContext.add(context2));
-		Assert.assertEquals(fileDaoUserContext.getCountUsers(), 2);
+		Assert.assertEquals(fileDaoUserContext.getRowCount(), 2);
 		Assert.assertTrue(fileDaoUserContext.remove(context.getNickname()));
 		Assert.assertTrue(fileDaoUserContext.remove(context1.getNickname()));
-		Assert.assertEquals(fileDaoUserContext.getCountUsers(), 0);
+		Assert.assertEquals(fileDaoUserContext.getRowCount(), 0);
 
 	}
 

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 public class UserContext implements IObservable, IPerformer {
 	private Set<IObserver> observers = new HashSet<IObserver>();
+	private int id;
 	private String nickname;
 	private String password;
 	private String name;
@@ -23,6 +24,7 @@ public class UserContext implements IObservable, IPerformer {
 
 
 	public UserContext() {
+		this.id=0;
 		this.nickname = null;
 		this.password = null;
 		this.name = null;
@@ -109,6 +111,11 @@ public class UserContext implements IObservable, IPerformer {
 		}else {
 			this.role = 0;
 		}
+		if(this.id==0){
+			log.fine("Field \"id\" can not be 0 because already 0.");
+		}else {
+			this.role = 0;
+		}
 		if(!this.online){
 			log.fine("Field \"online\" can not be false because already false.");
 		}else {
@@ -140,6 +147,7 @@ public class UserContext implements IObservable, IPerformer {
 	@Override
 	public String toString() {
 		return "UserContext{" +
+				"id='" + id + '\'' +
 				"nickname='" + nickname + '\'' +
 				", password='" + password + '\'' +
 				", name='" + name + '\'' +
@@ -155,5 +163,13 @@ public class UserContext implements IObservable, IPerformer {
 
 	public void setCurrentTopic(Topic currentTopic) {
 		this.currentTopic = currentTopic;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

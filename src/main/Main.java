@@ -1,18 +1,21 @@
 package main;
 
-import main.command.*;
+import main.command.CommandBuilder;
+import main.command.ICommand;
+import main.command.InvokerCommand;
+import main.command.MacroCommand;
+import main.command.entity.CommandHistory;
+import main.command.entity.CommandHistoryElement;
+import main.dao.*;
 import main.dao.file.FileDaoCommandHelp;
 import main.dao.file.FileDaoTopics;
 import main.dao.file.FileDaoUserContext;
 import main.system.command.Exit;
 import main.system.command.Help;
-import main.dao.*;
-import main.command.entity.CommandHistory;
-import main.command.entity.CommandHistoryElement;
 import main.system.command.Topics;
+import main.user.command.*;
 import main.user.entity.User;
 import main.user.entity.UserContext;
-import main.user.command.*;
 import main.view.IView;
 import main.view.ViewConsole;
 
@@ -42,11 +45,11 @@ public class Main {
 
 	private static void init() {
 		configureLog();
-		try {
-			Class.forName("org.hsqldb.jdbcDriver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Class.forName("org.hsqldb.jdbcDriver");
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
 		UserContext context = new UserContext();
 		User user = new User(context);
 		Locale l = new Locale("en", "US");
@@ -102,7 +105,7 @@ public class Main {
 		try {
 			LogManager.getLogManager().readConfiguration(logConfigInputStream);
 		} catch (IOException e) {
-			System.err.println(e);
+			System.out.println(e);
 		}
 		log = Logger.getLogger(Main.class.getName());
 //		for (int i = 0; i < 10000; i++) {

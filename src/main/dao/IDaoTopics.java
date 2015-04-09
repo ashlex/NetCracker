@@ -32,6 +32,7 @@ public interface IDaoTopics {
 	public Topic getTopic(String header);
 
 	public ArrayList<Topic> getAllTopics();
+	public ArrayList<Topic> getAllTopics(int userId);
 
 	/**
 	 * @return count of topics

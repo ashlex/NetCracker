@@ -31,7 +31,8 @@ public class MyInfo extends AbstractCommandBase {
 			return executeResult;
 		}
 		executeResult.setResult(ExecuteResult.SUCCESS);
-		ArrayList<String> info = new ArrayList<String>(5);
+		ArrayList<String> info = new ArrayList<String>(6);
+		info.add("id: " + context.getId());
 		info.add("NickName: " + context.getNickname());
 		info.add("Name: " + context.getName());
 		info.add("Role: " + context.getRole());

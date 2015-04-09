@@ -20,9 +20,9 @@ public class FileDaoTopicsTest extends Assert {
 		try {
 			f= File.createTempFile("tmp", ".txt");
 			FileOutputStream fileOutputStream=new FileOutputStream(f);
-			String str="1;Topic1;this is test Topic1;\n" +
-					"2;Topic2;this is test Topic2;\n" +
-					"3;Topic3;this is test Topic3;\n";
+			String str="1;Topic1;this is test Topic1;1;\n" +
+					"2;Topic2;this is test Topic2;1;\n" +
+					"3;Topic3;this is test Topic3;0;\n";
 			fileOutputStream.write(str.getBytes());
 			fileOutputStream.close();
 			fileDaoTopics = new FileDaoTopics(f,false);
@@ -36,9 +36,9 @@ public class FileDaoTopicsTest extends Assert {
 	public void testGetAllTopics() throws Exception {
 		ArrayList<Topic> arrayList=fileDaoTopics.getAllTopics();
 		assertEquals(arrayList.size(),3);
-		assertTrue(arrayList.get(0).equals(new Topic(1,"Topic1","this is test Topic1")));
-		assertTrue(arrayList.get(1).equals(new Topic(2,"Topic2","this is test Topic2")));
-		assertTrue(arrayList.get(2).equals(new Topic(3,"Topic3","this is test Topic3")));
+		assertTrue(arrayList.get(0).equals(new Topic(1,"Topic1","this is test Topic1", 1)));
+		assertTrue(arrayList.get(1).equals(new Topic(2,"Topic2","this is test Topic2", 1)));
+		assertTrue(arrayList.get(2).equals(new Topic(3,"Topic3","this is test Topic3", 0)));
 	}
 
 	@Test
@@ -93,5 +93,11 @@ public class FileDaoTopicsTest extends Assert {
 			assertEquals(fileDaoTopics.getTopic(tp[i].getHeader()),tp[i]);
 		}
 
+	}
+	@Test
+	public void testGetAllTopicsUserId() throws Exception{
+		ArrayList<Topic> arrayList=fileDaoTopics.getAllTopics(0);
+		assertEquals(arrayList.size(),1);
+		assertTrue(arrayList.get(0).equals(new Topic(3,"Topic3","this is test Topic3", 0)));
 	}
 }

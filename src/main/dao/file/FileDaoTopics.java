@@ -21,7 +21,7 @@ public class FileDaoTopics implements IDaoTopics {
 			throw new IllegalArgumentException("Object topicsDF is null.");
 		}
 		parser = new Parser(topicsDF, header);
-		rowCount=getRowCount();
+		rowCount = getRowCount();
 	}
 
 	public FileDaoTopics(File topicsDF) {
@@ -30,8 +30,9 @@ public class FileDaoTopics implements IDaoTopics {
 
 	@Override
 	public boolean add(Topic topic) {
-		if(topic!=null) {
-			String[] topicString = {String.valueOf(topic.getId()), topic.getHeader(), topic.getDescription()};
+		if (topic != null) {
+			String[] topicString = {String.valueOf(topic.getId()), topic.getHeader(),
+					topic.getDescription(), String.valueOf(topic.getUserId())};
 			Row<String> row = new Row<String>(topicString);
 			ArrayList<Row> arrayList = parser.getRows();
 			if (arrayList.add(row)) {
@@ -45,7 +46,7 @@ public class FileDaoTopics implements IDaoTopics {
 			} else {
 				return false;
 			}
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -82,7 +83,11 @@ public class FileDaoTopics implements IDaoTopics {
 		ArrayList<Row> arrayList = parser.getRows();
 		for (Row<String> row : arrayList) {
 			if (Integer.valueOf(row.getRow()[0]) == id) {
-				return new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2]);
+				try {
+					return new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2], Integer.valueOf(row.getRow()[3]));
+				} catch (ArrayIndexOutOfBoundsException e) {
+					log.log(Level.SEVERE, row.toString(), e);
+				}
 			}
 		}
 		return null;
@@ -93,7 +98,11 @@ public class FileDaoTopics implements IDaoTopics {
 		ArrayList<Row> arrayList = parser.getRows();
 		for (Row<String> row : arrayList) {
 			if (header.equalsIgnoreCase(row.getRow()[1])) {
-				return new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2]);
+				try {
+					return new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2], Integer.valueOf(row.getRow()[3]));
+				} catch (ArrayIndexOutOfBoundsException e) {
+					log.log(Level.SEVERE, row.toString(), e);
+				}
 			}
 		}
 		return null;
@@ -104,15 +113,27 @@ public class FileDaoTopics implements IDaoTopics {
 		ArrayList<Topic> topics = new ArrayList<Topic>();
 		for (Row<String> row : parser.getRows()) {
 			try {
-				topics.add(new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2]));
+				topics.add(new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2], Integer.valueOf(row.getRow()[3])));
 			} catch (ArrayIndexOutOfBoundsException e) {
 				log.log(Level.SEVERE, row.toString(), e);
 			}
 		}
 		rowCount = topics.size();
 		operationAfterSynchronisation = 0;
-		synchronisationRowCount();
-
+		return topics;
+	}
+	@Override
+	public ArrayList<Topic> getAllTopics(int userId) {
+		ArrayList<Topic> topics = new ArrayList<Topic>();
+		for (Row<String> row : parser.getRows()) {
+			if(Integer.valueOf(row.getRow()[3])==userId||Integer.valueOf(row.getRow()[3])==0) {
+				try {
+					topics.add(new Topic(Integer.valueOf(row.getRow()[0]), row.getRow()[1], row.getRow()[2], Integer.valueOf(row.getRow()[3])));
+				} catch (ArrayIndexOutOfBoundsException e) {
+					log.log(Level.SEVERE, row.toString(), e);
+				}
+			}
+		}
 		return topics;
 	}
 

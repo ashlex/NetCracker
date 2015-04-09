@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class ViewConsole implements IView {
-	private String invite[] = {"anonymous", "$:"};
+	private String invite[]=new String[2];
 	private OutputStream outputStream;
 	private InputStream inputStream;
 	private User user;
@@ -22,11 +22,15 @@ public class ViewConsole implements IView {
 	private CommandBuilder commandBuilder;
 	private ICommand command;
 	private ResourceBundle message;
+	private ResourceBundle general;
 
 	public ViewConsole(OutputStream outputStream, InputStream inputStream) {
 		this.message= ResourceBundle.getBundle("main.resources.locale.message");
+		this.general= ResourceBundle.getBundle("main.resources.locale.general");
 		this.outputStream = outputStream;
 		this.inputStream = inputStream;
+		invite[0]=general.getString("USER_ANONYMOUS");
+		invite[1]=general.getString("USER_WILDCARD_INVITATION");
 	}
 
 	@Override
@@ -72,11 +76,7 @@ public class ViewConsole implements IView {
 
 	@Override
 	public void handleEvent() {
-		if (user.getRole() == 0) {
-			invite[0] = "anonymous";
-		} else {
-			invite[0] = user.toString();
-		}
+		invite[0] = user.toString();
 	}
 
 	/**

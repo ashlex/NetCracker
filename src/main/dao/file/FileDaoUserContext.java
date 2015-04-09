@@ -68,6 +68,7 @@ public class FileDaoUserContext implements IDaoUserContext {
 				userContext.setName(row.getRow()[3]);
 				try {
 					userContext.setRole(Integer.parseInt(row.getRow()[4]));
+					userContext.setId(Integer.parseInt(row.getRow()[0]));
 				} catch (NumberFormatException e) {
 					log.log(Level.SEVERE, "", e);
 					return null;
@@ -104,6 +105,7 @@ public class FileDaoUserContext implements IDaoUserContext {
 		for (Row<String> row : rows) {
 			//ID;NICKNAME;PASSWORD;NAME;ROLE;ONLINE;
 			if (row.getRow()[1].equals(userContext.getNickname())) {
+				row.getRow()[0]=String.valueOf(userContext.getId());
 				row.getRow()[1]=userContext.getNickname();
 				row.getRow()[3]=userContext.getName();
 				row.getRow()[4]=String.valueOf(userContext.getRole());
@@ -133,6 +135,7 @@ public class FileDaoUserContext implements IDaoUserContext {
 			userContext.setName(row.getRow()[3]);
 			try {
 				userContext.setRole(Integer.parseInt(row.getRow()[4]));
+				userContext.setId(Integer.parseInt(row.getRow()[0]));
 			} catch (NumberFormatException e) {
 				log.log(Level.SEVERE, "", e);
 				continue;
@@ -143,16 +146,6 @@ public class FileDaoUserContext implements IDaoUserContext {
 		}
 		return userContextsArrayList;
 	}
-//	private String[] userContextToString(UserContext userContext){
-//		ArrayList<String> strings=new ArrayList<String>();
-//		strings.add(userContext.getNickname());
-//		strings.add(userContext.getPassword());
-//		strings.add(userContext.getName());
-//		strings.add(userContext.getRole()+"");
-//		strings.add(userContext.isOnline()?"1":"0");
-//		return (String[]) strings.toArray();
-//	}
-
 
 	@Override
 	public int getRowCount() {

@@ -1,2 +1,3 @@
 ID;NICKNAME;PASSWORD;NAME;ROLE;ONLINE;
 "1";"test";"123";"Alexej";"2";"0";
+"2";"admin";"123";"Administrator";"1";"0";

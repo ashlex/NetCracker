@@ -64,7 +64,8 @@ public class Topics extends AbstractCommandBase {
 							description = stringBuilder.toString();
 						}
 						int identifier = iDaoTopics.getRowCount() + 1;
-						if (iDaoTopics.add(new Topic(identifier, header, description))) {
+						Topic topic=new Topic(identifier, header, description, context.getId());
+						if (iDaoTopics.add(topic)) {
 							Response response = new Response(String.format(resourceBundle.getString("ADDED_NEW_TOPIC"), header));
 							return new ExecuteResult(this, ExecuteResult.SUCCESS, response);
 						} else {
@@ -97,6 +98,14 @@ public class Topics extends AbstractCommandBase {
 				}else{
 					// сообщение о том что должен быть указан заголовок или id темы
 				}
+			}else if(attributeMap.containsKey("q")||attributeMap.containsKey("quit")){
+				if(context.getCurrentTopic()!=null){
+					context.setCurrentTopic(null);
+					context.notifyObserver();
+					return new ExecuteResult(this, ExecuteResult.SUCCESS, null);
+				}else{
+					return new ExecuteResult(this, ExecuteResult.FAIL, new Response("You have no open topics."));
+				}
 			}
 		} else {
 			return keyAll();
@@ -105,7 +114,7 @@ public class Topics extends AbstractCommandBase {
 	}
 
 	private ExecuteResult keyAll() {
-		ArrayList<Topic> topics = daoFactory.getDaoTopics().getAllTopics();
+		ArrayList<Topic> topics = daoFactory.getDaoTopics().getAllTopics(context.getId());
 		ArrayList<String> headers = new ArrayList<String>(topics.size());
 		for (Topic t : topics) {
 			headers.add(t.getId() + " " + t.getHeader());

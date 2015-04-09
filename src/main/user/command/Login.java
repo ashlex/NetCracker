@@ -36,17 +36,16 @@ public class Login extends AbstractCommandBase {
             return executeResult;
         }
         if (allAttribute != null) {
-            if (allAttribute.containsKey("help") || allAttribute.containsKey("?")) {
-                executeResult.setResult(ExecuteResult.GET_HELP);
-                executeResult.setResponse(new Response(getHelp()));
+            if (isHelp()) {
 	            log.finer("Calling getHelp.");
-                return executeResult;
+                return new ExecuteResult(this, ExecuteResult.GET_HELP,new Response(getHelp()));
             }
 
-            if (allAttribute.size() >= 2) {
+            if (allAttribute.size() >= 2 && allAttribute.containsKey("u") && allAttribute.containsKey("p")) {
                 UserContext userContext = daoFactory.getDaoUserContext().getUser(allAttribute.get("u").getValues()[0]);
                 if (userContext != null) {
                     if (userContext.getPassword().equals(allAttribute.get("p").getValues()[0])) {
+	                    context.setId(userContext.getId());
                         context.setNickname(userContext.getNickname());
                         context.setName(userContext.getName());
                         context.setRole(userContext.getRole());
@@ -68,7 +67,7 @@ public class Login extends AbstractCommandBase {
             }else{
                 executeResult.setResult(ExecuteResult.FAIL);
                 executeResult.setResponse(new Response(resourceBundle.getString("ILLEGAL_ARGUMENT")));
-	            log.fine("Count of attributes is less than two.");
+	            log.fine("Count of attributes is less than two or attribute \"-u\" or \"-p\" incorrect.");
             }
 
         } else {

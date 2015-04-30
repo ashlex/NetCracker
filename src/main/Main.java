@@ -18,6 +18,8 @@ import main.user.entity.User;
 import main.user.entity.UserContext;
 import main.view.IView;
 import main.view.ViewConsole;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +35,23 @@ public class Main {
 	private static boolean debug = false;
 
 	public static void main(String[] args) {
+		configureLog();
+		SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
+		org.hibernate.Session session=  sessionFactory.openSession();
+		main.dao.hibernate.entity.User u =(main.dao.hibernate.entity.User)session.load(main.dao.hibernate.entity.User.class,1);
+		main.dao.hibernate.entity.User u2=new main.dao.hibernate.entity.User();
+		System.out.println(u);
+		u2.setNickName("test2");
+		u2.setPassword("test");
+		System.out.println(u2);
+		session.getTransaction().begin();
+		session.save(u2);
+		session.getTransaction().commit();
+		u =(main.dao.hibernate.entity.User)session.load(main.dao.hibernate.entity.User.class,2);
+		System.out.println(u);
+		session.close();
+		System.exit(0);
+
 		if (args.length > 0) {
 			for (String arg : args) {
 				if ("-debug".equalsIgnoreCase(arg)) {
@@ -44,12 +63,6 @@ public class Main {
 	}
 
 	private static void init() {
-		configureLog();
-//		try {
-//			Class.forName("org.hsqldb.jdbcDriver");
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		}
 		UserContext context = new UserContext();
 		User user = new User(context);
 		Locale l = new Locale("en", "US");
@@ -57,7 +70,9 @@ public class Main {
 		context.addObserver(view); // Here we add observer for context.
 		CommandHistory<CommandHistoryElement> commandHistory = new CommandHistory<CommandHistoryElement>();
 		InvokerCommand invokerCommand = new InvokerCommand(commandHistory);
-		IDaoFactory daoFactory = new DaoFactory();
+
+		Dao dao=new Dao();
+		IDaoFactory daoFactory = dao.getFactory(Dao.FILE);
 		setDao(daoFactory);
 
 		CommandBuilder commandBuilder = new CommandBuilder();
@@ -124,50 +139,54 @@ public class Main {
 	 * @param daoFactory DaoFactory for adding the concrete DaoUserContext.
 	 */
 	private static void setDao(IDaoFactory daoFactory) {
-		File file = null;
 		IDaoUserContext daoUserContext = null;
 		IDaoCommandHelp daoCommandHelp = null;
 		IDaoTopics daoTopics = null;
-		String[] resources = {
-				"UserContext",
-				"CommandHelp",
-				"Topics",
-		};
-		URL url =null;
-		for (String resName : resources) {
-			url=Main.class.getResource("resources/data/"+resName);
-			if (url == null) {
-				log.info("Resource \"" + resName + "\" not found. The work of program may be incorrect.");
-			} else {
-				file = new File(url.getPath());
-				if (file == null) {
-					log.severe("Creating a object " + resName + " failed.");
+		if(daoFactory instanceof main.dao.file.DaoFactory) {
+			File file = null;
+			String[] resources = {
+					"UserContext",
+					"CommandHelp",
+					"Topics",
+			};
+			URL url = null;
+			for (String resName : resources) {
+				url = Main.class.getResource("resources/data/" + resName);
+				if (url == null) {
+					log.info("Resource \"" + resName + "\" not found. The work of program may be incorrect.");
 				} else {
-					if ("UserContext".equals(resName)) {
-						daoUserContext = new FileDaoUserContext(file);
-						if (daoUserContext == null) {
-							log.severe("Creating a object DAO" + resName + " failed.");
-						} else {
-							daoFactory.setDaoUserContext(daoUserContext);
-						}
-					}else if("CommandHelp".equals(resName)){
+					file = new File(url.getPath());
+					if (file == null) {
+						log.severe("Creating a object " + resName + " failed.");
+					} else {
+						if ("UserContext".equals(resName)) {
+							daoUserContext = new FileDaoUserContext(file);
+							if (daoUserContext == null) {
+								log.severe("Creating a object DAO" + resName + " failed.");
+							} else {
+								daoFactory.setDaoUserContext(daoUserContext);
+							}
+						} else if ("CommandHelp".equals(resName)) {
 
-						daoCommandHelp = new FileDaoCommandHelp(file);
-						if (daoCommandHelp == null) {
-							log.severe("Creating a object DAO" + resName + " failed.");
-						} else {
-							daoFactory.setDaoCommandHelp(daoCommandHelp);
-						}
-					}else if("Topics".equals(resName)){
-						daoTopics = new FileDaoTopics(file);
-						if (daoTopics == null) {
-							log.severe("Creating a object DAO" + resName + " failed.");
-						} else {
-							daoFactory.setDaoTopics(daoTopics);
+							daoCommandHelp = new FileDaoCommandHelp(file);
+							if (daoCommandHelp == null) {
+								log.severe("Creating a object DAO" + resName + " failed.");
+							} else {
+								daoFactory.setDaoCommandHelp(daoCommandHelp);
+							}
+						} else if ("Topics".equals(resName)) {
+							daoTopics = new FileDaoTopics(file);
+							if (daoTopics == null) {
+								log.severe("Creating a object DAO" + resName + " failed.");
+							} else {
+								daoFactory.setDaoTopics(daoTopics);
+							}
 						}
 					}
 				}
 			}
+		}else if(daoFactory instanceof main.dao.hibernate.DaoFactory){
+
 		}
 	}
 }

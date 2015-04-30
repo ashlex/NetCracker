@@ -1,0 +1,20 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="main.dao.hibernate.entity">
+    <class name="User" table="Users">
+        <id column="USER_ID" name="userId" type="java.lang.Integer">
+            <generator class="increment"/>
+        </id>
+        <property column="PASSWORD" name="password" type="java.lang.String"/>
+        <property column="NICK_NAME" name="nickName" type="java.lang.String"/>
+        <property column="FIRST_NAME" name="firstName" type="java.lang.String"/>
+        <property column="SUR_NAME" name="surName" type="java.lang.String"/>
+        <property column="LOCALE" name="locale" type="java.lang.String"/>
+
+        <set name="groupId" table="USER_TO_GROUP" lazy="false">
+            <key column="user_id"/>
+            <many-to-many column="group_id" class="Group"/>
+        </set>
+
+    </class>
+</hibernate-mapping>

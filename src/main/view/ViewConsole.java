@@ -10,11 +10,12 @@ import main.user.entity.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class ViewConsole implements IView {
-	private String invite[]=new String[2];
+	private String invite[] = new String[2];
 	private OutputStream outputStream;
 	private InputStream inputStream;
 	private User user;
@@ -25,12 +26,12 @@ public class ViewConsole implements IView {
 	private ResourceBundle general;
 
 	public ViewConsole(OutputStream outputStream, InputStream inputStream) {
-		this.message= ResourceBundle.getBundle("main.resources.locale.message");
-		this.general= ResourceBundle.getBundle("main.resources.locale.general");
+		this.message = ResourceBundle.getBundle("main.resources.locale.message");
+		this.general = ResourceBundle.getBundle("main.resources.locale.general");
 		this.outputStream = outputStream;
 		this.inputStream = inputStream;
-		invite[0]=general.getString("USER_ANONYMOUS");
-		invite[1]=general.getString("USER_WILDCARD_INVITATION");
+		invite[0] = general.getString("USER_ANONYMOUS");
+		invite[1] = general.getString("USER_WILDCARD_INVITATION");
 	}
 
 	@Override
@@ -55,21 +56,24 @@ public class ViewConsole implements IView {
 	}
 
 	@Override
-	public void handle(){
+	public void handle() {
 		Scanner scn = new Scanner(inputStream);
-		ExecuteResult result;
-		String inputtedCommand;
-		while (true) {
-			print("\n"+joinStringArray(invite, " "));
-			inputtedCommand=scn.nextLine();
-			command = commandBuilder.getCommand(inputtedCommand);
-			if(command!=null) {
-				result=invokerCommand.storeAndExecute(command);
-				command=null;
-				handlingResult(result);
-			}else {
-				print(String.format(message.getString("COMMAND_NO_FOUND"),inputtedCommand.split(" ")[0]));
-			}
+		try {
+			ExecuteResult result;
+			String inputtedCommand;
+			while (true) {
+				print("\n" + joinStringArray(invite, " "));
+				inputtedCommand = scn.nextLine();
+				command = commandBuilder.getCommand(inputtedCommand);
+				if (command != null) {
+					result = invokerCommand.storeAndExecute(command);
+					command = null;
+					handlingResult(result);
+				} else {
+					print(String.format(message.getString("COMMAND_NO_FOUND"), inputtedCommand.split(" ")[0]));
+				}			}
+		} catch (NoSuchElementException exception) {
+			scn.close();
 		}
 
 	}
@@ -81,11 +85,12 @@ public class ViewConsole implements IView {
 
 	/**
 	 * This displays on the console the results of running.
+	 *
 	 * @param er {@link main.command.entity.ExecuteResult} results of running.
 	 */
-	private void handlingResult(ExecuteResult er){
-		Response response=er.getResponse();
-		if(response!=null) {
+	private void handlingResult(ExecuteResult er) {
+		Response response = er.getResponse();
+		if (response != null) {
 			Object[] array = response.getResponseArray();
 			int type = response.getType();
 			switch (type) {
@@ -106,6 +111,7 @@ public class ViewConsole implements IView {
 			}
 		}
 	}
+
 	private void print(String str) {
 		try {
 			outputStream.write(str.getBytes());
@@ -113,9 +119,10 @@ public class ViewConsole implements IView {
 			e.printStackTrace();
 		}
 	}
+
 	private void println(String str) {
 		try {
-			outputStream.write(String.format(str+"%n").getBytes());
+			outputStream.write(String.format(str + "%n").getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

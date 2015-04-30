@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map>
+          <unit-entry name="hibernate.cfg.xml" value="4077620e-83ef-427b-8533-acb2a74b1026" />
+        </datasource-map>
+        <naming-strategy-map />
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/hibernate.cfg.xml" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -21,9 +32,9 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="junit-4.12-beta-3" level="project" />
-    <orderEntry type="library" name="commons-csv-1.1" level="project" />
     <orderEntry type="library" name="annotations" level="project" />
     <orderEntry type="library" name="hsqldb" level="project" />
+    <orderEntry type="library" name="Hibernate 4.2.2-4.2.2" level="project" />
   </component>
 </module>
 

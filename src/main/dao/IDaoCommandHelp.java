@@ -5,6 +5,10 @@ import main.system.entity.CommandHelp;
 
 import java.util.ArrayList;
 
+/**
+ * This interface gives functionality for get information on commands.
+ */
+
 public interface IDaoCommandHelp {
 	public CommandHelp getHelp(ICommand command);
 	public CommandHelp getHelp(String alias);

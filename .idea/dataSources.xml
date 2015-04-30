@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3238984704">
-    <data-source source="LOCAL" name="HSQLDB - test" uuid="4077620e-83ef-427b-8533-acb2a74b1026">
+  <component name="DataSourceManagerImpl" format="xml" hash="3230488762">
+    <data-source source="LOCAL" name="hibernate.cfg.xml" uuid="576ba6b7-b29e-44a3-874c-138334388907">
       <driver-ref>hsqldb.embedded</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
-      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/HSQLDB/test</jdbc-url>
-      <libraries />
+      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/HSQLDB/test1</jdbc-url>
+      <user-name>SA</user-name>
+      <schema-pattern>PUBLIC.PUBLIC</schema-pattern>
+      <default-schemas>PUBLIC.PUBLIC</default-schemas>
+      <libraries>
+        <library>
+          <url>file://$PROJECT_DIR$/lib/hsqldb.jar</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>
